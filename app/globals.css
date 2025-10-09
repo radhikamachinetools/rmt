@@ -1,0 +1,40 @@
+/* app/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Poppins', sans-serif;
+
+  /* ✨ NEW Green Theme ✨ */
+  --color-brand-green-light: #2ECC71; /* Bright, modern green for accents and links */
+  --color-brand-green-dark: #1D5E48; /* Deep, professional green for primary buttons and text */
+  --color-brand-green-deeper: #164A3A;
+  --color-dark-gray: #1A1A1A;
+  --color-medium-gray: #2C2C2C;
+  --color-light-gray: #F5F5F5;
+
+  --color-background: #ffffff;
+  --color-foreground: #1A1A1A; /* Using our dark-gray */
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar for a more modern look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
