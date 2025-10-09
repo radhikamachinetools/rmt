@@ -22,7 +22,7 @@ export async function getProducts() {
 }
 
 // Create a new product
-export async function createProduct(data: any) {
+export async function createProduct(data: Record<string, unknown>) {
   const res = await fetch(`${API_URL}/products`, {
     method: "POST",
     headers: getAuthHeaders(),
@@ -33,7 +33,7 @@ export async function createProduct(data: any) {
 }
 
 // ✨ Update an existing product
-export async function updateProduct(id: string, data: any) {
+export async function updateProduct(id: string, data: Record<string, unknown>) {
   const res = await fetch(`${API_URL}/products/${id}`, {
     method: "PATCH",
     headers: getAuthHeaders(),

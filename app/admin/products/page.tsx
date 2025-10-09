@@ -12,7 +12,7 @@ import {
 
 // Define the type for a single product
 type Product = {
-  _id: string;
+  _id?: string;
   name: string;
   slug: string;
   category: string;
@@ -22,6 +22,8 @@ type Product = {
   keyFeatures: string[];
   specifications: { spec: string; value: string }[];
   galleryUrls: string[];
+  isFeatured?: boolean;
+  order?: number;
 };
 
 export default function AdminProductsPage() {
@@ -57,9 +59,9 @@ export default function AdminProductsPage() {
     setProductToEdit(null);
   };
 
-  const handleSaveProduct = async (productData: any) => {
+  const handleSaveProduct = async (productData: Product) => {
     try {
-      if (productToEdit) {
+      if (productToEdit && productToEdit._id) {
         // Update existing product
         await updateProduct(productToEdit._id, productData);
       } else {
@@ -127,7 +129,7 @@ export default function AdminProductsPage() {
                         Edit
                       </button>
                       <button
-                        onClick={() => handleDeleteProduct(product._id)}
+                        onClick={() => product._id && handleDeleteProduct(product._id)}
                         className="text-red-600 hover:underline"
                       >
                         Delete
