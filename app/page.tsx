@@ -1,6 +1,5 @@
 // app/page.tsx
 import Image from "next/image";
-import Link from "next/link";
 import { ShieldCheck, Wrench, Trophy } from "lucide-react";
 
 // --- Import all your new Client Components ---

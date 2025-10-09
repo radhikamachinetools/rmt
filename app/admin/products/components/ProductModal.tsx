@@ -177,7 +177,7 @@ export default function ProductModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    let finalData = { ...formData };
+    const finalData = { ...formData };
 
     try {
       const filesToUpload: File[] = [];
@@ -325,7 +325,7 @@ export default function ProductModal({
                 }
                 className="w-5 h-5"
               />
-              Show as a "Featured Product" on the homepage
+              Show as a &quot;Featured Product&quot; on the homepage
             </label>
           </div>
           <div className="mb-4">
