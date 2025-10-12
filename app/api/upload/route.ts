@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       fileName: uniqueFileName,
       filePath: `/uploads/${uniqueFileName}`
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }
