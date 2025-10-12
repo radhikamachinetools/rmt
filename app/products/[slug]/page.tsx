@@ -38,9 +38,9 @@ async function getProduct(slug: string): Promise<Product | null> {
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const resolvedParams = await params; // ✨ Add this line to resolve the promise
+  const resolvedParams = await params;
   const product = await getProduct(resolvedParams.slug);
 
   // If no product is found for the given slug, show a 404 page

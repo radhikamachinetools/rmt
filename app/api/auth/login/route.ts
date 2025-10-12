@@ -5,7 +5,12 @@ import { APP_CONFIG } from '../../../lib/constants';
 
 export async function POST(request: NextRequest) {
   try {
-    const { username, password } = await request.json();
+    const body = await request.json();
+    const { username, password } = body;
+
+    if (!username || !password) {
+      return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
+    }
 
     const client = await clientPromise;
     const db = client.db('rmt_db');
@@ -15,11 +20,23 @@ export async function POST(request: NextRequest) {
       applicationName: APP_CONFIG.APPLICATION_NAME 
     });
     
-    if (!user || !user.password || !bcrypt.compareSync(password, user.password)) {
+    if (!user || !user.password || typeof user.password !== 'string') {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    return NextResponse.json({ success: true, user: { id: user._id, username: user.username, applicationName: user.applicationName } });
+    const isValidPassword = bcrypt.compareSync(password, user.password);
+    if (!isValidPassword) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      user: { 
+        id: user._id, 
+        username: user.username, 
+        applicationName: user.applicationName 
+      } 
+    });
   } catch {
     return NextResponse.json({ error: 'Login failed' }, { status: 500 });
   }
