@@ -15,12 +15,12 @@ export async function POST(request: NextRequest) {
       applicationName: APP_CONFIG.APPLICATION_NAME 
     });
     
-    if (!user || !bcrypt.compareSync(password, user.password)) {
+    if (!user || !user.password || !bcrypt.compareSync(password, user.password)) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
     return NextResponse.json({ success: true, user: { id: user._id, username: user.username, applicationName: user.applicationName } });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Login failed' }, { status: 500 });
   }
 }
