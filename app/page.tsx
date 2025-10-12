@@ -27,7 +27,7 @@ type Product = {
 // --- Data Fetching Functions ---
 async function getMedia(): Promise<MediaItem[]> {
   try {
-    const res = await fetch("http://localhost:3001/media", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/media`, {
       cache: "no-store",
     });
     if (!res.ok) return [];
@@ -42,7 +42,7 @@ async function getMedia(): Promise<MediaItem[]> {
 
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
-    const res = await fetch("http://localhost:3001/products", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/products`, {
       cache: "no-store",
     });
     if (!res.ok) return [];
