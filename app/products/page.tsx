@@ -15,16 +15,17 @@ type Product = {
 // --- Data Fetching Function ---
 async function getProducts(): Promise<Product[]> {
   try {
-    const res = await fetch("http://localhost:3001/products", {
-      cache: "no-store", // Ensures we always get the latest data from the admin panel
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/products`, {
+      cache: "no-store",
     });
     if (!res.ok) {
       throw new Error("Failed to fetch products");
     }
-    return res.json();
+    const data = await res.json();
+    return data.success ? data.products : [];
   } catch (error) {
     console.error("Error fetching products:", error);
-    return []; // Return an empty array if there's an error
+    return [];
   }
 }
 
