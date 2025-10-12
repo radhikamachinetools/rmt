@@ -95,12 +95,23 @@ export default function ProductsAdmin() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {products.map((product: any) => (
+          {products.map((product: {
+            _id: string;
+            name: string;
+            shortDescription?: string;
+            description: string;
+            category: string;
+            price?: number;
+            image?: string;
+            imageUrl?: string;
+            isFeatured?: boolean;
+            slug: string;
+          }) => (
             <div key={product._id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
               <div className="relative h-32 sm:h-48 bg-gray-100 rounded-t-xl overflow-hidden">
                 {product.image || product.imageUrl ? (
                   <Image 
-                    src={product.image || product.imageUrl} 
+                    src={product.image || product.imageUrl || '/images/placeholder.png'} 
                     alt={product.name}
                     fill
                     className="object-cover"

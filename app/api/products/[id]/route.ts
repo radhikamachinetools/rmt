@@ -3,13 +3,14 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import { APP_CONFIG } from '../../../lib/constants';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const client = await clientPromise;
     const db = client.db('rmt_db');
     
     const product = await db.collection('products').findOne({ 
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
       applicationName: APP_CONFIG.APPLICATION_NAME 
     });
     
@@ -23,8 +24,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const productData = await request.json();
     
     const client = await clientPromise;
@@ -32,7 +34,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     
     const result = await db.collection('products').updateOne(
       { 
-        _id: new ObjectId(params.id),
+        _id: new ObjectId(id),
         applicationName: APP_CONFIG.APPLICATION_NAME 
       },
       { 
@@ -53,13 +55,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const client = await clientPromise;
     const db = client.db('rmt_db');
     
     const result = await db.collection('products').deleteOne({ 
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
       applicationName: APP_CONFIG.APPLICATION_NAME 
     });
     

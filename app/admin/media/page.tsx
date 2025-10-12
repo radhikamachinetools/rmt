@@ -5,7 +5,7 @@ import { Upload, Trash2, Eye } from "lucide-react";
 import Image from "next/image";
 
 export default function MediaAdmin() {
-  const [media, setMedia] = useState([]);
+  const [media, setMedia] = useState<{ resource_type: string; url: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
@@ -113,7 +113,7 @@ export default function MediaAdmin() {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-          {media.map((item: any, index) => (
+          {media.map((item: { resource_type: string; url: string }, index) => (
             <div key={index} className="group relative aspect-square bg-gray-100 rounded-xl overflow-hidden">
               {item.resource_type === 'video' ? (
                 <video

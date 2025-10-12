@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Package, Image as ImageIcon, TrendingUp, Users } from "lucide-react";
+import { Package, Image as ImageIcon, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
@@ -29,10 +29,12 @@ export default function AdminDashboard() {
       const products = productsData.success ? productsData.products : [];
       const media = Array.isArray(mediaData) ? mediaData : [];
       
+      const featuredCount = products.filter((p: { isFeatured: boolean }) => p.isFeatured).length;
+      
       setStats({
         products: products.length,
         media: media.length,
-        featuredProducts: products.filter((p: any) => p.isFeatured).length
+        featuredProducts: featuredCount
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -41,7 +43,13 @@ export default function AdminDashboard() {
     }
   };
 
-  const StatCard = ({ title, value, icon, href, color }: any) => (
+  const StatCard = ({ title, value, icon, href, color }: {
+    title: string;
+    value: number;
+    icon: React.ReactNode;
+    href: string;
+    color: string;
+  }) => (
     <Link href={href} className={`block p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow ${color}`}>
       <div className="flex items-center justify-between">
         <div>
