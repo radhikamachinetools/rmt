@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
 import clientPromise from '../../../lib/mongodb';
 import { APP_CONFIG } from '../../../lib/constants';
+
+const bcrypt = require('bcryptjs');
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isValidPassword = bcrypt.compareSync(password, user.password);
+    const isValidPassword = bcrypt.compareSync(String(password), String(user.password));
     if (!isValidPassword) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }

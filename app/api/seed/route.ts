@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 import clientPromise from '../../lib/mongodb';
 import { APP_CONFIG } from '../../lib/constants';
 
