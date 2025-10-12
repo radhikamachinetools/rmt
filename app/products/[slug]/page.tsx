@@ -21,15 +21,13 @@ type Product = {
 // --- Data Fetching Function ---
 async function getProduct(slug: string): Promise<Product | null> {
   try {
-    // Fetch all products and find the one with the matching slug
-    // For a large-scale app, you'd create a dedicated endpoint like /products/:slug
-    const res = await fetch(`http://localhost:3001/products`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/products/slug/${slug}`, {
       cache: "no-store",
     });
     if (!res.ok) return null;
-
-    const products: Product[] = await res.json();
-    return products.find((p) => p.slug === slug) || null;
+    
+    const data = await res.json();
+    return data.success ? data.product : null;
   } catch (error) {
     console.error("Failed to fetch product:", error);
     return null;

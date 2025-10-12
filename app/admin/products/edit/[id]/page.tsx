@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, X, Plus } from "lucide-react";
 
 type Specification = {
@@ -9,29 +9,71 @@ type Specification = {
   value: string;
 };
 
-export default function CreateProduct() {
+type Product = {
+  _id?: string;
+  name: string;
+  slug: string;
+  category: string;
+  imageUrl?: string;
+  shortDescription: string;
+  description: string;
+  keyFeatures: string[];
+  specifications: Specification[];
+  galleryUrls: string[];
+  isFeatured?: boolean;
+  order?: number;
+  price?: number;
+};
+
+export default function EditProduct() {
   const router = useRouter();
+  const params = useParams();
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<Product>({
     name: "",
     slug: "",
     category: "",
     shortDescription: "",
     description: "",
     keyFeatures: [""],
-    specifications: [{ spec: "", value: "" }] as Specification[],
+    specifications: [{ spec: "", value: "" }],
+    galleryUrls: [],
     isFeatured: false,
     order: 0,
-    price: 0,
   });
+
+  useEffect(() => {
+    if (params.id) {
+      fetchProduct();
+    }
+  }, [params.id]);
+
+  const fetchProduct = async () => {
+    try {
+      const res = await fetch(`/api/products/${params.id}`);
+      const data = await res.json();
+      if (data.success) {
+        setProduct({
+          ...data.product,
+          keyFeatures: data.product.keyFeatures?.length ? data.product.keyFeatures : [""],
+          specifications: data.product.specifications?.length ? data.product.specifications : [{ spec: "", value: "" }],
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      const res = await fetch('/api/products', {
-        method: 'POST',
+      const res = await fetch(`/api/products/${params.id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product)
       });
@@ -40,7 +82,7 @@ export default function CreateProduct() {
         router.push('/admin/products');
       }
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.error('Error updating product:', error);
     } finally {
       setSaving(false);
     }
@@ -90,6 +132,26 @@ export default function CreateProduct() {
     }));
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-48 mb-6"></div>
+            <div className="bg-white rounded-xl p-8">
+              <div className="space-y-6">
+                <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                <div className="h-32 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
@@ -101,8 +163,8 @@ export default function CreateProduct() {
           <ArrowLeft size={20} className="hidden sm:block" />
         </button>
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Create Product</h1>
-          <p className="text-gray-600 mt-1 text-sm sm:text-base">Add a new product to your catalog</p>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Edit Product</h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Update product information</p>
         </div>
       </div>
 
@@ -264,7 +326,7 @@ export default function CreateProduct() {
               <label className="flex items-center gap-3">
                 <input
                   type="checkbox"
-                  checked={product.isFeatured}
+                  checked={product.isFeatured || false}
                   onChange={(e) => setProduct(prev => ({ ...prev, isFeatured: e.target.checked }))}
                   className="w-5 h-5 text-brand-green-dark border-gray-300 rounded focus:ring-brand-green-light"
                 />
@@ -274,7 +336,7 @@ export default function CreateProduct() {
                 <label className="text-sm font-medium text-gray-700">Display Order:</label>
                 <input
                   type="number"
-                  value={product.order}
+                  value={product.order || 0}
                   onChange={(e) => setProduct(prev => ({ ...prev, order: parseInt(e.target.value) || 0 }))}
                   className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-light focus:border-transparent"
                 />
@@ -295,7 +357,7 @@ export default function CreateProduct() {
             disabled={saving}
             className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-brand-green-dark text-white rounded-lg hover:bg-brand-green-light disabled:opacity-50 font-medium text-sm sm:text-base"
           >
-            {saving ? "Creating..." : "Create Product"}
+            {saving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>
