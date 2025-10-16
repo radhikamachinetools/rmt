@@ -1,0 +1,109 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "slug": "c-2300-block-cutter",
+      "name": "C-2300 Block Cutter",
+      "category": "Block Cutting Machines",
+      "shortDescription": "High-precision block cutting machine for granite and marble processing with advanced cutting technology.",
+      "description": "The C-2300 Block Cutter is engineered for precision cutting of granite and marble blocks. Features advanced hydraulic systems, diamond wire cutting technology, and automated controls for consistent results.",
+      "imageUrl": "/uploads/MACHINES RENDER COLLECTION/BLOCK CUTTER/C-2300 RENDER FILE.jpg",
+      "images": [
+        "/uploads/MACHINES RENDER COLLECTION/BLOCK CUTTER/C-2300 RENDER FILE.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/BLOCK CUTTER/FINAL RENDER.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/BLOCK CUTTER/FINAL RENDER 2.jpg"
+      ],
+      "isFeatured": true,
+      "order": 1,
+      "specifications": {
+        "power": "75 HP",
+        "cuttingCapacity": "3000mm x 2000mm",
+        "weight": "15000 kg"
+      }
+    },
+    {
+      "id": "2",
+      "slug": "lpm-disk-polishing-machine",
+      "name": "LPM Disk Polishing Machine",
+      "category": "Line Polishing Machines",
+      "shortDescription": "Advanced disk polishing machine for achieving mirror finish on granite and marble surfaces.",
+      "description": "The LPM Disk Polishing Machine delivers exceptional surface finishing with rotating disk technology. Perfect for achieving mirror-like finishes on various stone surfaces.",
+      "imageUrl": "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK.jpg",
+      "images": [
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 2.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 3.jpg"
+      ],
+      "isFeatured": true,
+      "order": 2,
+      "specifications": {
+        "power": "45 HP",
+        "polishingWidth": "1800mm",
+        "weight": "8000 kg"
+      }
+    },
+    {
+      "id": "3",
+      "slug": "lpm-flicker-machine",
+      "name": "LPM Flicker Machine",
+      "category": "Line Polishing Machines",
+      "shortDescription": "Specialized flicker polishing machine for textured surface finishing on stone materials.",
+      "description": "The LPM Flicker Machine creates unique textured finishes on stone surfaces. Ideal for decorative applications and specialized surface treatments.",
+      "imageUrl": "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 2.jpg",
+      "images": [
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 2.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 3.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 4.jpg"
+      ],
+      "isFeatured": false,
+      "order": 3,
+      "specifications": {
+        "power": "30 HP",
+        "workingWidth": "1600mm",
+        "weight": "6000 kg"
+      }
+    },
+    {
+      "id": "4",
+      "slug": "stone-processing-machine",
+      "name": "Stone Processing Machine",
+      "category": "Stone Processing Equipment",
+      "shortDescription": "Multi-purpose stone processing machine for various cutting and shaping operations.",
+      "description": "Versatile stone processing equipment designed for multiple operations including cutting, shaping, and finishing of various stone materials.",
+      "imageUrl": "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE.jpg",
+      "images": [
+        "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/RJ RENDER 12.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/RJ RENDER 13.jpg"
+      ],
+      "isFeatured": true,
+      "order": 4,
+      "specifications": {
+        "power": "60 HP",
+        "capacity": "2500mm x 1500mm",
+        "weight": "12000 kg"
+      }
+    },
+    {
+      "id": "5",
+      "slug": "wsm-wire-saw-machine",
+      "name": "WSM Wire Saw Machine",
+      "category": "Wire Cutting Machines",
+      "shortDescription": "Precision wire saw machine for cutting large stone blocks with diamond wire technology.",
+      "description": "The WSM Wire Saw Machine utilizes diamond wire cutting technology for precise cutting of large stone blocks. Features automated controls and high cutting efficiency.",
+      "imageUrl": "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE.jpg",
+      "images": [
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 2.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 3.jpg"
+      ],
+      "isFeatured": false,
+      "order": 5,
+      "specifications": {
+        "power": "90 HP",
+        "cuttingLength": "4000mm",
+        "weight": "18000 kg"
+      }
+    }
+  ]
+}

@@ -1,77 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ObjectId } from 'mongodb';
-import clientPromise from '../../../lib/mongodb';
-import { APP_CONFIG } from '../../../lib/constants';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json');
+
+type Product = {
+  id: string;
+  [key: string]: unknown;
+};
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const product = await db.collection('products').findOne({ 
-      _id: new ObjectId(id),
-      applicationName: APP_CONFIG.APPLICATION_NAME 
-    });
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
+    const product = products.find((p: Product) => p.id === id);
     
     if (!product) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+      return NextResponse.json({ success: false, error: 'Product not found' }, { status: 404 });
     }
     
     return NextResponse.json({ success: true, product });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to fetch product' }, { status: 500 });
   }
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const productData = await request.json();
+    const body = await request.json();
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
     
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const result = await db.collection('products').updateOne(
-      { 
-        _id: new ObjectId(id),
-        applicationName: APP_CONFIG.APPLICATION_NAME 
-      },
-      { 
-        $set: {
-          ...productData,
-          updatedAt: new Date()
-        }
-      }
-    );
-    
-    if (result.matchedCount === 0) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    const index = products.findIndex((p: Product) => p.id === id);
+    if (index === -1) {
+      return NextResponse.json({ success: false, error: 'Product not found' }, { status: 404 });
     }
     
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+    products[index] = { ...products[index], ...body };
+    await fs.writeFile(PRODUCTS_FILE, JSON.stringify({ products }, null, 2));
+    
+    return NextResponse.json({ success: true, product: products[index] });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to update product' }, { status: 500 });
   }
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
     
-    const result = await db.collection('products').deleteOne({ 
-      _id: new ObjectId(id),
-      applicationName: APP_CONFIG.APPLICATION_NAME 
-    });
-    
-    if (result.deletedCount === 0) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-    }
+    const filteredProducts = products.filter((p: Product) => p.id !== id);
+    await fs.writeFile(PRODUCTS_FILE, JSON.stringify({ products: filteredProducts }, null, 2));
     
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to delete product' }, { status: 500 });
   }
 }

@@ -1,43 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
-import clientPromise from '../../lib/mongodb';
-import { APP_CONFIG } from '../../lib/constants';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+const MEDIA_FILE = path.join(process.cwd(), 'data', 'media.json');
 
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const media = await db.collection('media').find({ 
-      applicationName: APP_CONFIG.APPLICATION_NAME 
-    }).toArray();
-    
+    const data = await fs.readFile(MEDIA_FILE, 'utf8');
+    const { media } = JSON.parse(data);
     return NextResponse.json(media);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch media' }, { status: 500 });
+  } catch {
+    return NextResponse.json([]);
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const mediaData = await request.json();
+    const body = await request.json();
+    const data = await fs.readFile(MEDIA_FILE, 'utf8');
+    const { media } = JSON.parse(data);
     
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const media = {
-      ...mediaData,
-      applicationName: APP_CONFIG.APPLICATION_NAME,
-      createdAt: new Date()
+    const newMedia = {
+      id: Date.now().toString(),
+      ...body,
+      createdAt: new Date().toISOString()
     };
-
-    const result = await db.collection('media').insertOne(media);
     
-    return NextResponse.json({ 
-      success: true, 
-      mediaId: result.insertedId,
-      media 
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Media upload failed' }, { status: 500 });
+    media.push(newMedia);
+    await fs.writeFile(MEDIA_FILE, JSON.stringify({ media }, null, 2));
+    
+    return NextResponse.json({ success: true, media: newMedia });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to add media' }, { status: 500 });
   }
 }
