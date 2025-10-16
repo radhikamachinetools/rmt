@@ -1,53 +1,159 @@
-// app/products/[slug]/page.tsx
+import Image from "next/image";
+import { ArrowLeft, Phone, Mail } from "lucide-react";
+import Link from "next/link";
 
-import { notFound } from "next/navigation";
-import ProductDetailsClient from "./components/ProductDetailsClient";
-
-// --- Type Definition ---
-// This should match your backend schema exactly
 type Product = {
-  _id: string;
-  name: string;
+  id: string;
   slug: string;
+  name: string;
   category: string;
-  imageUrl?: string;
   shortDescription: string;
   description: string;
-  keyFeatures: string[];
-  specifications: { spec: string; value: string }[];
-  galleryUrls: string[];
+  imageUrl: string;
+  images?: string[];
+  specifications?: {
+    power?: string;
+    capacity?: string;
+    weight?: string;
+  };
 };
 
-// --- Data Fetching Function ---
 async function getProduct(slug: string): Promise<Product | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/products/slug/${slug}`, {
       cache: "no-store",
     });
-    if (!res.ok) return null;
     
+    if (!res.ok) return null;
     const data = await res.json();
     return data.success ? data.product : null;
   } catch (error) {
-    console.error("Failed to fetch product:", error);
+    console.error("Error fetching product:", error);
     return null;
   }
 }
 
-// --- Main Page (Server Component) ---
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const resolvedParams = await params;
-  const product = await getProduct(resolvedParams.slug);
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
-  // If no product is found for the given slug, show a 404 page
   if (!product) {
-    notFound();
+    return (
+      <div className="min-h-screen bg-light-gray flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
+          <Link href="/products" className="text-brand-green hover:text-brand-green-dark">
+            ← Back to Products
+          </Link>
+        </div>
+      </div>
+    );
   }
 
-  // Pass the fetched data to the client component for rendering
-  return <ProductDetailsClient product={product} />;
+  return (
+    <div className="min-h-screen bg-light-gray">
+      <div className="container mx-auto px-4 py-8">
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-2 text-brand-green hover:text-brand-green-dark mb-8"
+        >
+          <ArrowLeft size={20} />
+          Back to Products
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Images */}
+          <div className="space-y-4">
+            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                width={600}
+                height={600}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
+            {product.images && product.images.length > 1 && (
+              <div className="grid grid-cols-3 gap-4">
+                {product.images.slice(1, 4).map((image, index) => (
+                  <div key={index} className="aspect-square bg-white rounded-lg overflow-hidden shadow">
+                    <Image
+                      src={image}
+                      alt={`${product.name} ${index + 2}`}
+                      width={200}
+                      height={200}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Product Info */}
+          <div className="space-y-6">
+            <div>
+              <span className="text-brand-green font-medium">{product.category}</span>
+              <h1 className="text-4xl font-bold text-gray-900 mt-2">{product.name}</h1>
+              <p className="text-xl text-gray-600 mt-4">{product.shortDescription}</p>
+            </div>
+
+            <div className="prose prose-gray max-w-none">
+              <p>{product.description}</p>
+            </div>
+
+            {/* Specifications */}
+            {product.specifications && (
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Specifications</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {product.specifications.power && (
+                    <div>
+                      <span className="text-sm text-gray-500">Power</span>
+                      <p className="font-semibold">{product.specifications.power}</p>
+                    </div>
+                  )}
+                  {product.specifications.capacity && (
+                    <div>
+                      <span className="text-sm text-gray-500">Capacity</span>
+                      <p className="font-semibold">{product.specifications.capacity}</p>
+                    </div>
+                  )}
+                  {product.specifications.weight && (
+                    <div>
+                      <span className="text-sm text-gray-500">Weight</span>
+                      <p className="font-semibold">{product.specifications.weight}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Contact CTA */}
+            <div className="bg-gradient-to-r from-brand-green to-brand-green-dark text-white rounded-xl p-6">
+              <h3 className="text-xl font-bold mb-4">Interested in this machine?</h3>
+              <p className="mb-6">Get in touch with our experts for pricing and customization options.</p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="tel:+919983813366"
+                  className="flex items-center justify-center gap-2 bg-white text-brand-green px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                >
+                  <Phone size={20} />
+                  Call Now
+                </a>
+                <a
+                  href="mailto:rmt.jodhpur@gmail.com"
+                  className="flex items-center justify-center gap-2 bg-brand-green-deeper text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-green-dark transition-colors"
+                >
+                  <Mail size={20} />
+                  Email Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

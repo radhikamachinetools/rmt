@@ -1,45 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import clientPromise from '../../../lib/mongodb';
-import { APP_CONFIG } from '../../../lib/constants';
+import { promises as fs } from 'fs';
+import path from 'path';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const bcrypt = require('bcryptjs');
+const ADMIN_FILE = path.join(process.cwd(), 'data', 'admin.json');
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { username, password } = body;
-
-    if (!username || !password) {
-      return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
-    }
-
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
+    const { username, password } = await request.json();
+    const data = await fs.readFile(ADMIN_FILE, 'utf8');
+    const { admin } = JSON.parse(data);
     
-    const user = await db.collection('admins').findOne({ 
-      username, 
-      applicationName: APP_CONFIG.APPLICATION_NAME 
-    });
+    if (username === admin.username && password === admin.password) {
+      const response = NextResponse.json({ success: true, message: 'Login successful' });
+      response.cookies.set('admin-auth', 'true', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        path: '/'
+      });
+      return response;
+    }
     
-    if (!user || !user.password || typeof user.password !== 'string') {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    const isValidPassword = bcrypt.compareSync(String(password), String(user.password));
-    if (!isValidPassword) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    return NextResponse.json({ 
-      success: true, 
-      user: { 
-        id: user._id, 
-        username: user.username, 
-        applicationName: user.applicationName 
-      } 
-    });
-  } catch {
-    return NextResponse.json({ error: 'Login failed' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: 'Login failed' }, { status: 500 });
   }
 }

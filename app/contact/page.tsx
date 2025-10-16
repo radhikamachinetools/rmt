@@ -1,254 +1,255 @@
 // app/contact/page.tsx
 
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  CheckCircle,
-  X,
-  AlertTriangle,
-} from "lucide-react";
-import { sendEmail } from "../actions"; // ✨ Import the server action
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toast, setToast] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.name) newErrors.name = "Full Name is required.";
-    if (!formData.email) {
-      newErrors.email = "Email Address is required.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email Address is invalid.";
-    }
-    if (!formData.subject) newErrors.subject = "Subject is required.";
-    if (!formData.message) newErrors.message = "Message is required.";
-    return newErrors;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      setIsSubmitting(true);
-      setToast(null);
-
-      // ✨ Call the server action instead of simulating
-      const result = await sendEmail(formData);
-
-      setIsSubmitting(false);
-
-      if (result.success) {
-        setToast({ type: "success", message: "Message sent successfully!" });
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setToast({
-          type: "error",
-          message: result.error || "An unexpected error occurred.",
-        });
-      }
-
-      // Hide toast after 4 seconds
-      setTimeout(() => setToast(null), 4000);
-    }
-  };
-
   return (
-    <div className="relative overflow-hidden">
-      {/* Universal Toast for Success or Error */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: -50, x: "-50%" }}
-            animate={{ opacity: 1, y: 100, x: "-50%" }}
-            exit={{ opacity: 0, y: -50, x: "-50%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`fixed top-0 left-1/2 z-50 flex items-center gap-3 p-4 rounded-lg shadow-2xl ${
-              toast.type === "success"
-                ? "bg-brand-green-dark text-white"
-                : "bg-red-600 text-white"
-            }`}
-          >
-            {toast.type === "success" ? <CheckCircle /> : <AlertTriangle />}
-            <span>{toast.message}</span>
-            <button onClick={() => setToast(null)} className="ml-4">
-              <X size={18} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="bg-light-gray">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl font-extrabold text-brand-green-dark">
+    <div className="min-h-screen bg-light-gray">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-brand-green-dark to-brand-green text-white py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
               Get In Touch
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
-              We&apos;re here to help. Contact us for quotes, support, or any
-              inquiries.
+            <p className="text-xl lg:text-2xl text-green-100">
+              Ready to transform your production? Let&apos;s discuss how we can help you achieve your goals.
             </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Contact Form */}
-            <motion.div
-              className="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-2xl font-bold mb-6 text-dark-gray">
-                Send us a Message
-              </h2>
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                  <div>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Full Name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`w-full p-3 border rounded-md focus:ring-2 focus:ring-brand-green-light ${
-                        errors.name ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                    )}
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`w-full p-3 border rounded-md focus:ring-2 focus:ring-brand-green-light ${
-                        errors.email ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={`w-full p-3 border rounded-md focus:ring-2 focus:ring-brand-green-light ${
-                      errors.subject ? "border-red-500" : "border-gray-300"
-                    }`}
-                  />
-                  {errors.subject && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.subject}
-                    </p>
-                  )}
-                </div>
-                <div className="mb-6">
-                  <textarea
-                    name="message"
-                    placeholder="Your Message"
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className={`w-full p-3 border rounded-md focus:ring-2 focus:ring-brand-green-light ${
-                      errors.message ? "border-red-500" : "border-gray-300"
-                    }`}
-                  ></textarea>
-                  {errors.message && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-brand-green-dark text-white font-bold py-3 px-6 rounded-md hover:bg-brand-green-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </button>
-              </form>
-            </motion.div>
-
-            {/* Contact Details */}
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 border-t-4 border-brand-green-light">
-                <MapPin className="w-10 h-10 text-brand-green-dark mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="text-lg font-semibold">Our Address</h3>
-                  <p className="text-gray-600">
-                    <span className="font-bold">Unit-1:</span> Plot No. 06, Ram
-                    Nagar, Sangriya, Jodhpur, Rajasthan 342008
-                  </p>
-                  <p className="text-gray-600 mt-2">
-                    <span className="font-bold">Unit-2:</span> J-65, RIICO, 1st
-                    Phase, Sangriya, Jodhpur, Rajasthan 342008
-                  </p>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 border-t-4 border-brand-green-light">
-                <Mail className="w-8 h-8 text-brand-green-dark mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="text-lg font-semibold">Email Us</h3>
-                  <p className="text-gray-600">rmt.jodhpur@gmail.com</p>
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 border-t-4 border-brand-green-light">
-                <Phone className="w-8 h-8 text-brand-green-dark mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="text-lg font-semibold">Call Us</h3>
-                  <p className="text-gray-600">+91 9983813366</p>
-                  <p className="text-gray-600">+91 9950329353</p>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            {/* Contact Form */}
+            <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-xl">
+              <h2 className="text-3xl font-bold text-brand-green-dark mb-8">
+                Send us a Message
+              </h2>
+              
+              <form action="/api/contact" method="POST" className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      placeholder="+91 XXXXX XXXXX"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                      Company Name
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      placeholder="Your company name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                    Subject
+                  </label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                  >
+                    <option value="">Select a subject</option>
+                    <option value="product-inquiry">Product Inquiry</option>
+                    <option value="custom-solution">Custom Solution</option>
+                    <option value="support">Technical Support</option>
+                    <option value="partnership">Partnership</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 resize-none"
+                    placeholder="Tell us about your requirements..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-brand-green text-white font-bold py-4 px-8 rounded-xl hover:bg-brand-green-dark transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-3"
+                >
+                  <Send size={20} />
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            {/* Contact Information */}
+            <div className="space-y-8">
+              {/* Contact Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                {/* Phone */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                      <Phone className="text-white" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
+                      <a 
+                        href="tel:+919983813366"
+                        className="text-brand-green hover:text-brand-green-dark transition-colors"
+                      >
+                        +91 9983813366
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                      <Mail className="text-white" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
+                      <a 
+                        href="mailto:rmt.jodhpur@gmail.com"
+                        className="text-brand-green hover:text-brand-green-dark transition-colors"
+                      >
+                        rmt.jodhpur@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Locations */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-brand-green-dark mb-6">Our Locations</h3>
+                
+                <div className="space-y-6">
+                  {/* Unit 1 */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                      <MapPin className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Unit-1 (Main Office)</h4>
+                      <p className="text-muted">
+                        Plot No. 06, Ram Nagar, Sangriya, Jodhpur, Rajasthan, India
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Unit 2 */}
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                      <MapPin className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Unit-2 (Manufacturing)</h4>
+                      <p className="text-muted">
+                        J-65, RIICO, 1st Phase, Sangriya, Jodhpur, Rajasthan, India
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Business Hours */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                    <Clock className="text-white" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-green-dark">Business Hours</h3>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Monday - Friday</span>
+                    <span className="font-semibold text-brand-green">9:00 AM - 6:00 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Saturday</span>
+                    <span className="font-semibold text-brand-green">9:00 AM - 4:00 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Sunday</span>
+                    <span className="text-red-500">Closed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-brand-green-dark mb-4">
+              Find Us on Map
+            </h2>
+            <p className="text-muted">
+              Visit our manufacturing facilities in Jodhpur, Rajasthan
+            </p>
+          </div>
+          
+          <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
+            <p className="text-gray-500">Interactive map will be integrated here</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

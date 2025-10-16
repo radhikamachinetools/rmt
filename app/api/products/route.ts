@@ -1,44 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
-import clientPromise from '../../lib/mongodb';
-import { APP_CONFIG } from '../../lib/constants';
+import { promises as fs } from 'fs';
+import path from 'path';
 
-export async function POST(request: NextRequest) {
-  try {
-    const productData = await request.json();
-    
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const product = {
-      ...productData,
-      applicationName: APP_CONFIG.APPLICATION_NAME,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const result = await db.collection('products').insertOne(product);
-    
-    return NextResponse.json({ 
-      success: true, 
-      productId: result.insertedId,
-      product 
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Product creation failed' }, { status: 500 });
-  }
-}
+const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json');
 
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db('rmt_db');
-    
-    const products = await db.collection('products').find({ 
-      applicationName: APP_CONFIG.APPLICATION_NAME 
-    }).toArray();
-    
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
     return NextResponse.json({ success: true, products });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Failed to fetch products' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
+    
+    const newProduct = {
+      id: Date.now().toString(),
+      slug: body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      ...body,
+      order: products.length + 1
+    };
+    
+    products.push(newProduct);
+    await fs.writeFile(PRODUCTS_FILE, JSON.stringify({ products }, null, 2));
+    
+    return NextResponse.json({ success: true, product: newProduct });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: 'Failed to create product' }, { status: 500 });
   }
 }
