@@ -25,11 +25,11 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (data.success) {
-        router.push("/admin");
+        window.location.href = "/admin";
       } else {
         setError(data.error || "Login failed");
       }
-    } catch (error) {
+    } catch {
       setError("Network error");
     } finally {
       setLoading(false);

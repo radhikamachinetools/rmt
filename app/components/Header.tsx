@@ -21,10 +21,11 @@ const Header = () => {
   }, []);
 
   const productCategories = [
-    { name: "Granite Cutting Machines", href: "/products/granite-cutting" },
-    { name: "Line Polishing Machines", href: "/products/line-polishing" },
-    { name: "Handling Cranes", href: "/products/handling-cranes" },
-    { name: "Epoxy Resin Line", href: "/products/epoxy-resin" },
+    { name: "C-2300 Block Cutter", href: "/products/c-2300-block-cutter" },
+    { name: "LPM Disk Polishing Machine", href: "/products/lpm-disk-polishing-machine" },
+    { name: "LPM Flicker Machine", href: "/products/lpm-flicker-machine" },
+    { name: "Stone Processing Machine", href: "/products/stone-processing-machine" },
+    { name: "WSM Wire Saw Machine", href: "/products/wsm-wire-saw-machine" },
   ];
 
   return (

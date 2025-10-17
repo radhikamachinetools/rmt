@@ -7,6 +7,7 @@ import { Pencil, Trash2, Eye, Plus, Search, Filter, Grid, List } from "lucide-re
 
 type Product = {
   _id: string;
+  id?: string;
   name: string;
   shortDescription?: string;
   description: string;
@@ -24,6 +25,8 @@ export default function ProductsAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{show: boolean, productId: string, productName: string}>({show: false, productId: '', productName: ''});
 
   useEffect(() => {
     fetchProducts();
@@ -43,17 +46,29 @@ export default function ProductsAdmin() {
     }
   };
 
-  const deleteProduct = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+  const confirmDelete = (id: string, name: string) => {
+    setDeleteModal({show: true, productId: id, productName: name});
+  };
+
+  const deleteProduct = async () => {
+    const id = deleteModal.productId;
+    setDeleteModal({show: false, productId: '', productName: ''});
     
     try {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      
       if (res.ok) {
+        setToast({ message: 'Product and images deleted successfully!', type: 'success' });
         fetchProducts();
+      } else {
+        setToast({ message: data.error || 'Failed to delete product', type: 'error' });
       }
     } catch {
-      console.error('Error deleting product');
+      setToast({ message: 'Error deleting product', type: 'error' });
     }
+    
+    setTimeout(() => setToast(null), 3000);
   };
 
   const filteredProducts = products.filter((product: Product) => {
@@ -89,6 +104,36 @@ export default function ProductsAdmin() {
 
   return (
     <div className="w-full space-y-6">
+      {toast && (
+        <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg shadow-lg ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+          {toast.type === 'success' ? '✓ ' : '✗ '}{toast.message}
+        </div>
+      )}
+
+      {deleteModal.show && (
+   <div className="fixed inset-0 flex items-center justify-center" style={{zIndex: 9999}}>
+          <div className="bg-brand-green-light rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-white mb-2">Delete Product</h3>
+            <p className="text-white mb-6">
+              Are you sure you want to delete <strong>{deleteModal.productName}</strong>? This will also remove all associated images.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setDeleteModal({show: false, productId: '', productName: ''})}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteProduct}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Products Management</h1>
@@ -182,9 +227,10 @@ export default function ProductsAdmin() {
           ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
           : "space-y-4"
         }>
-          {filteredProducts.map((product: Product) => (
-            viewMode === "grid" ? (
-              <div key={product._id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group">
+          {filteredProducts.map((product: Product) => {
+            const productId = product.id || product._id;
+            return viewMode === "grid" ? (
+              <div key={productId} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group">
                 <div className="relative h-48 bg-gray-100 rounded-t-xl overflow-hidden">
                   {product.image || product.imageUrl ? (
                     <Image 
@@ -233,14 +279,14 @@ export default function ProductsAdmin() {
                       View
                     </Link>
                     <Link
-                      href={`/admin/products/edit/${product._id}`}
+                      href={`/admin/products/edit/${productId}`}
                       className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                     >
                       <Pencil size={16} />
                       Edit
                     </Link>
                     <button
-                      onClick={() => deleteProduct(product._id)}
+                      onClick={() => confirmDelete(productId, product.name)}
                       className="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
                     >
                       <Trash2 size={16} />
@@ -249,7 +295,7 @@ export default function ProductsAdmin() {
                 </div>
               </div>
             ) : (
-              <div key={product._id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 p-6">
+              <div key={productId} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 p-6">
                 <div className="flex items-center gap-6">
                   <div className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                     {product.image || product.imageUrl ? (
@@ -298,14 +344,14 @@ export default function ProductsAdmin() {
                       View
                     </Link>
                     <Link
-                      href={`/admin/products/edit/${product._id}`}
+                      href={`/admin/products/edit/${productId}`}
                       className="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                     >
                       <Pencil size={16} />
                       Edit
                     </Link>
                     <button
-                      onClick={() => deleteProduct(product._id)}
+                      onClick={() => confirmDelete(productId, product.name)}
                       className="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
                     >
                       <Trash2 size={16} />
@@ -313,8 +359,8 @@ export default function ProductsAdmin() {
                   </div>
                 </div>
               </div>
-            )
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

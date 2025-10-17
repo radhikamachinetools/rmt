@@ -1,3 +1,37 @@
 {
-  "media": []
+  "media": [
+    {
+      "id": "1760678342610",
+      "title": "C-2300 Block Cutter",
+      "description": "High-precision block cutting machine for granite and marble processing with advanced cutting technology.",
+      "url": "/uploads/media/C-2300 RENDER FILE (1).jpg",
+      "resource_type": "image",
+      "isActive": true,
+      "activeFrom": "2025-10-17",
+      "activeTo": "2025-10-22",
+      "createdAt": "2025-10-17T05:19:02.610Z"
+    },
+    {
+      "id": "1760678451018",
+      "title": "LPM Disk Polishing Machine",
+      "description": "Advanced disk polishing machine for achieving mirror finish on granite and marble surfaces.\nThe LPM Disk Polishing Machine delivers exceptional surface finishing with rotating disk technology. Perfect for achieving mirror-like finishes on various stone surfaces.",
+      "url": "/uploads/media/LPM-DISK 7.jpg",
+      "resource_type": "image",
+      "isActive": true,
+      "activeFrom": "2025-10-17",
+      "activeTo": "2025-10-22",
+      "createdAt": "2025-10-17T05:20:51.018Z"
+    },
+    {
+      "id": "1760678522881",
+      "title": "LPM Flicker Machine",
+      "description": "Specialized flicker polishing machine for textured surface finishing on stone materials.\nThe LPM Flicker Machine creates unique textured finishes on stone surfaces. Ideal for decorative applications and specialized surface treatments.\n",
+      "url": "/uploads/media/LPM RENDER FILE 6.jpg",
+      "resource_type": "image",
+      "isActive": true,
+      "activeFrom": "2025-10-17",
+      "activeTo": "2025-10-31",
+      "createdAt": "2025-10-17T05:22:02.881Z"
+    }
+  ]
 }

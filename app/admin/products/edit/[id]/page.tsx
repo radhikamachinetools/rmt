@@ -72,10 +72,17 @@ export default function EditProduct() {
     setSaving(true);
 
     try {
+      // Filter out empty key features and specifications
+      const cleanedProduct = {
+        ...product,
+        keyFeatures: product.keyFeatures.filter(feature => feature.trim() !== ''),
+        specifications: product.specifications.filter(spec => spec.spec.trim() !== '' && spec.value.trim() !== '')
+      };
+
       const res = await fetch(`/api/products/${params.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(product)
+        body: JSON.stringify(cleanedProduct)
       });
 
       if (res.ok) {
@@ -218,6 +225,138 @@ export default function EditProduct() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green-light focus:border-transparent"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Main Image
+              </label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-green transition-colors">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const formData = new FormData();
+                      formData.append('files', file);
+                      formData.append('slug', product.slug || 'temp');
+                      
+                      try {
+                        const res = await fetch('/api/upload', {
+                          method: 'POST',
+                          body: formData
+                        });
+                        const data = await res.json();
+                        if (data.success && data.paths?.[0]) {
+                          setProduct(prev => ({ ...prev, imageUrl: data.paths[0] }));
+                        }
+                      } catch (error) {
+                        console.error('Upload failed:', error);
+                      }
+                    }
+                  }}
+                  className="hidden"
+                  id="editMainImage"
+                />
+                <label htmlFor="editMainImage" className="cursor-pointer">
+                  {product.imageUrl ? (
+                    <div className="space-y-2 relative group">
+                      <img src={product.imageUrl} alt="Preview" className="w-32 h-32 object-cover mx-auto rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setProduct(prev => ({ ...prev, imageUrl: "" }));
+                        }}
+                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ×
+                      </button>
+                      <p className="text-sm text-gray-600">Click to change image</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto flex items-center justify-center">
+                        <span className="text-2xl text-gray-400">📷</span>
+                      </div>
+                      <p className="text-gray-600">Click to upload main image</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Gallery Images
+              </label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-green transition-colors">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={async (e) => {
+                    const files = Array.from(e.target.files || []);
+                    const currentImages = product.galleryUrls || product.images || [];
+                    
+                    if (files.length > 0) {
+                      const formData = new FormData();
+                      files.forEach(file => formData.append('files', file));
+                      formData.append('slug', product.slug || 'temp');
+                      
+                      try {
+                        const res = await fetch('/api/upload', {
+                          method: 'POST',
+                          body: formData
+                        });
+                        const data = await res.json();
+                        if (data.success && data.paths) {
+                          const allImages = [...currentImages, ...data.paths];
+                          setProduct(prev => ({ ...prev, galleryUrls: allImages, images: allImages }));
+                        }
+                      } catch (error) {
+                        console.error('Upload failed:', error);
+                      }
+                    }
+                  }}
+                  className="hidden"
+                  id="editGalleryImages"
+                />
+                <label htmlFor="editGalleryImages" className="cursor-pointer">
+                  <div className="space-y-2">
+                    <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto flex items-center justify-center">
+                      <span className="text-2xl text-gray-400">🖼️</span>
+                    </div>
+                    <p className="text-gray-600">Click to add more gallery images</p>
+                    <p className="text-sm text-gray-500">Select multiple files</p>
+                  </div>
+                </label>
+              </div>
+              {(product.galleryUrls?.length > 0 || product.images?.length > 0) && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Gallery Images ({(product.galleryUrls || product.images || []).length}):</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {(product.galleryUrls || product.images || []).map((img, index) => (
+                      <div key={index} className="relative group">
+                        <img src={img} alt={`Gallery ${index + 1}`} className="w-full h-20 object-cover rounded border" />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            const currentImages = product.galleryUrls || product.images || [];
+                            const newImages = currentImages.filter((_, i) => i !== index);
+                            setProduct(prev => ({ ...prev, galleryUrls: newImages, images: newImages }));
+                          }}
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-6">

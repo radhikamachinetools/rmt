@@ -1,33 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.formData();
-    const file: File | null = data.get('file') as unknown as File;
+    const formData = await request.formData();
+    const files = formData.getAll('files') as File[];
+    const slug = formData.get('slug') as string;
 
-    if (!file) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+    if (!files.length || !slug) {
+      return NextResponse.json({ success: false, error: 'No files or slug provided' });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', slug);
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    const timestamp = Date.now();
-    const randomId = Math.random().toString(36).substring(2, 15);
-    const fileExtension = path.extname(file.name);
-    const uniqueFileName = `rmt_${timestamp}_${randomId}${fileExtension}`;
+    const uploadedPaths: string[] = [];
 
-    const filePath = path.join(process.cwd(), 'public/uploads', uniqueFileName);
-    await writeFile(filePath, buffer);
+    for (const file of files) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const filePath = path.join(uploadDir, file.name);
+      
+      await fs.writeFile(filePath, buffer);
+      uploadedPaths.push(`/uploads/${slug}/${file.name}`);
+    }
 
-    return NextResponse.json({ 
-      success: true, 
-      fileName: uniqueFileName,
-      filePath: `/uploads/${uniqueFileName}`
-    });
-  } catch {
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+    return NextResponse.json({ success: true, paths: uploadedPaths });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: 'Upload failed' }, { status: 500 });
   }
 }

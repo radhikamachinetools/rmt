@@ -2,127 +2,109 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Image as ImageIcon, Menu, X, LogOut } from "lucide-react";
 import Link from "next/link";
-
-const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const navItems = [
-    { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
-    { href: "/admin/products", label: "Products", icon: <Package size={20} /> },
-    { href: "/admin/media", label: "Media", icon: <ImageIcon size={20} /> },
-  ];
-
-  const handleLogout = () => {
-    localStorage.removeItem("admin_token");
-    router.push("/admin/login");
-  };
-
-  return (
-    <>
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
-          onClick={onClose}
-        />
-      )}
-      
-      <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50
-        w-64 bg-dark-gray text-white flex flex-col
-        transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <div className="p-4 border-b border-medium-gray">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-brand-green-light">
-              Admin Portal
-            </h2>
-            <button 
-              onClick={onClose}
-              className="lg:hidden p-1 hover:bg-medium-gray rounded"
-            >
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-        
-        <nav className="flex-1 p-4">
-          <div className="space-y-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
-                  pathname === item.href 
-                    ? "bg-brand-green-dark text-white" 
-                    : "hover:bg-medium-gray text-gray-300"
-                }`}
-              >
-                {item.icon}
-                <span className="font-medium">{item.label}</span>
-              </Link>
-            ))}
-          </div>
-        </nav>
-        
-        <div className="p-4 border-t border-medium-gray">
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 w-full p-3 text-gray-300 hover:bg-medium-gray rounded-lg transition-colors"
-          >
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
-        </div>
-      </aside>
-    </>
-  );
-};
+import { Package, Mail, Image, LogOut } from "lucide-react";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    if (pathname !== "/admin/login") {
-      const token = localStorage.getItem("admin_token");
-      if (!token) {
-        router.push("/admin/login");
+    const checkAuth = () => {
+      const authCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('admin-auth='));
+      
+      if (authCookie && authCookie.split('=')[1] === 'true') {
+        setIsAuthenticated(true);
+      } else if (pathname !== '/admin/login') {
+        router.push('/admin/login');
       }
-    }
+      setLoading(false);
+    };
+
+    checkAuth();
   }, [pathname, router]);
 
-  if (pathname === "/admin/login") {
+  const handleLogout = () => {
+    document.cookie = 'admin-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    router.push('/admin/login');
+  };
+
+  if (loading) {
+    return <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-green"></div>
+    </div>;
+  }
+
+  if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      
-      <div className="flex-1 flex flex-col lg:ml-0">
-        <header className="lg:hidden bg-white shadow-sm border-b border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <Menu size={20} />
-            </button>
-            <h1 className="text-lg font-semibold text-gray-900">Admin Panel</h1>
-            <div className="w-10" />
+    <div className="min-h-screen bg-gray-100">
+      <div className="flex">
+        <aside className="w-64 bg-white shadow-sm min-h-screen">
+          <div className="p-6">
+            <h2 className="text-xl font-bold text-gray-900">Admin Panel</h2>
           </div>
-        </header>
-        
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-auto">
+          <nav className="mt-6">
+            <Link
+              href="/admin"
+              className={`flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-gray-50 ${
+                pathname === '/admin' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              }`}
+            >
+              <Package size={20} />
+              Dashboard
+            </Link>
+            <Link
+              href="/admin/products"
+              className={`flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-gray-50 ${
+                pathname.startsWith('/admin/products') ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              }`}
+            >
+              <Package size={20} />
+              Products
+            </Link>
+            <Link
+              href="/admin/contacts"
+              className={`flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-gray-50 ${
+                pathname === '/admin/contacts' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              }`}
+            >
+              <Mail size={20} />
+              Contacts
+            </Link>
+            <Link
+              href="/admin/media"
+              className={`flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-gray-50 ${
+                pathname === '/admin/media' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              }`}
+            >
+              <Image size={20} />
+              Media
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-gray-50 w-full text-left"
+            >
+              <LogOut size={20} />
+              Logout
+            </button>
+          </nav>
+        </aside>
+        <main className="flex-1 p-8">
           {children}
         </main>
       </div>
