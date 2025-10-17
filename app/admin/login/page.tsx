@@ -91,11 +91,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Default credentials:</p>
-          <p>Username: <strong>admin</strong></p>
-          <p>Password: <strong>rmt2024</strong></p>
-        </div>
+
       </div>
     </div>
   );
