@@ -87,7 +87,7 @@ export default function MediaSlider() {
             <span className="text-2xl">🏭</span>
           </div>
           <h3 className="text-xl font-bold mb-2">Factory Media Coming Soon</h3>
-          <p className="text-white/80">We're preparing exciting content to showcase our manufacturing facility</p>
+          <p className="text-white/80">We&apos;re preparing exciting content to showcase our manufacturing facility</p>
         </div>
       </div>
     );

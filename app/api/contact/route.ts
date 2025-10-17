@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const { contacts } = JSON.parse(data);
     
     // Check if email already exists
-    const existingContact = contacts.find((contact: any) => contact.email === email);
+    const existingContact = contacts.find((contact: {email: string}) => contact.email === email);
     if (existingContact) {
       return NextResponse.json({ success: false, error: 'Query already exists for this email' }, { status: 400 });
     }
