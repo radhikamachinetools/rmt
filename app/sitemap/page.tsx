@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SitemapPage() {
   return (
     <div className="min-h-screen bg-light-gray py-16">
@@ -8,19 +10,19 @@ export default function SitemapPage() {
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">Main Pages</h2>
               <ul className="space-y-2">
-                <li><a href="/" className="text-brand-green hover:text-brand-green-dark">Home</a></li>
-                <li><a href="/about" className="text-brand-green hover:text-brand-green-dark">About Us</a></li>
-                <li><a href="/products" className="text-brand-green hover:text-brand-green-dark">Products</a></li>
-                <li><a href="/contact" className="text-brand-green hover:text-brand-green-dark">Contact</a></li>
+                <li><Link href="/" className="text-brand-green hover:text-brand-green-dark">Home</Link></li>
+                <li><Link href="/about" className="text-brand-green hover:text-brand-green-dark">About Us</Link></li>
+                <li><Link href="/products" className="text-brand-green hover:text-brand-green-dark">Products</Link></li>
+                <li><Link href="/contact" className="text-brand-green hover:text-brand-green-dark">Contact</Link></li>
               </ul>
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">Other Pages</h2>
               <ul className="space-y-2">
-                <li><a href="/faq" className="text-brand-green hover:text-brand-green-dark">FAQ</a></li>
-                <li><a href="/privacy-policy" className="text-brand-green hover:text-brand-green-dark">Privacy Policy</a></li>
-                <li><a href="/terms-and-conditions" className="text-brand-green hover:text-brand-green-dark">Terms & Conditions</a></li>
-                <li><a href="/service-center" className="text-brand-green hover:text-brand-green-dark">Service Center</a></li>
+                <li><Link href="/faq" className="text-brand-green hover:text-brand-green-dark">FAQ</Link></li>
+                <li><Link href="/privacy-policy" className="text-brand-green hover:text-brand-green-dark">Privacy Policy</Link></li>
+                <li><Link href="/terms-and-conditions" className="text-brand-green hover:text-brand-green-dark">Terms & Conditions</Link></li>
+                <li><Link href="/service-center" className="text-brand-green hover:text-brand-green-dark">Service Center</Link></li>
               </ul>
             </div>
           </div>
