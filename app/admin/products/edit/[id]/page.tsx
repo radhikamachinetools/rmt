@@ -298,7 +298,7 @@ export default function EditProduct() {
                   multiple
                   onChange={async (e) => {
                     const files = Array.from(e.target.files || []);
-                    const currentImages = product.galleryUrls || product.images || [];
+                    const currentImages = product.galleryUrls || [];
                     
                     if (files.length > 0) {
                       const formData = new FormData();
@@ -313,7 +313,7 @@ export default function EditProduct() {
                         const data = await res.json();
                         if (data.success && data.paths) {
                           const allImages = [...currentImages, ...data.paths];
-                          setProduct(prev => ({ ...prev, galleryUrls: allImages, images: allImages }));
+                          setProduct(prev => ({ ...prev, galleryUrls: allImages }));
                         }
                       } catch (error) {
                         console.error('Upload failed:', error);
@@ -333,20 +333,20 @@ export default function EditProduct() {
                   </div>
                 </label>
               </div>
-              {(product.galleryUrls?.length > 0 || product.images?.length > 0) && (
+              {(product.galleryUrls?.length > 0) && (
                 <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Gallery Images ({(product.galleryUrls || product.images || []).length}):</p>
+                  <p className="text-sm font-medium text-gray-700 mb-2">Gallery Images ({(product.galleryUrls || []).length}):</p>
                   <div className="grid grid-cols-4 gap-2">
-                    {(product.galleryUrls || product.images || []).map((img, index) => (
+                    {(product.galleryUrls || []).map((img, index) => (
                       <div key={index} className="relative group">
                         <img src={img} alt={`Gallery ${index + 1}`} className="w-full h-20 object-cover rounded border" />
                         <button
                           type="button"
                           onClick={(e) => {
                             e.preventDefault();
-                            const currentImages = product.galleryUrls || product.images || [];
+                            const currentImages = product.galleryUrls || [];
                             const newImages = currentImages.filter((_, i) => i !== index);
-                            setProduct(prev => ({ ...prev, galleryUrls: newImages, images: newImages }));
+                            setProduct(prev => ({ ...prev, galleryUrls: newImages }));
                           }}
                           className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                         >
