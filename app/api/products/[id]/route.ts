@@ -53,10 +53,25 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
     const { products } = JSON.parse(data);
     
+    const product = products.find((p: Product) => p.id === id);
+    if (!product) {
+      return NextResponse.json({ success: false, error: 'Product not found' }, { status: 404 });
+    }
+    
+    // Remove product folder and images
+    if (product.slug) {
+      const productDir = path.join(process.cwd(), 'public', 'uploads', product.slug as string);
+      try {
+        await fs.rm(productDir, { recursive: true, force: true });
+      } catch (error) {
+        console.log('Product folder not found or already deleted');
+      }
+    }
+    
     const filteredProducts = products.filter((p: Product) => p.id !== id);
     await fs.writeFile(PRODUCTS_FILE, JSON.stringify({ products: filteredProducts }, null, 2));
     
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: 'Product and images deleted successfully' });
   } catch {
     return NextResponse.json({ success: false, error: 'Failed to delete product' }, { status: 500 });
   }

@@ -8,21 +8,33 @@ export async function GET() {
   try {
     const data = await fs.readFile(MEDIA_FILE, 'utf8');
     const { media } = JSON.parse(data);
-    return NextResponse.json(media);
+    return NextResponse.json({ success: true, media });
   } catch {
-    return NextResponse.json([]);
+    return NextResponse.json({ success: true, media: [] });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const data = await fs.readFile(MEDIA_FILE, 'utf8');
-    const { media } = JSON.parse(data);
+    const { title, description, url, resource_type, isActive, activeFrom, activeTo } = await request.json();
+    
+    let media = [];
+    try {
+      const data = await fs.readFile(MEDIA_FILE, 'utf8');
+      media = JSON.parse(data).media || [];
+    } catch {
+      // File doesn't exist, start with empty array
+    }
     
     const newMedia = {
       id: Date.now().toString(),
-      ...body,
+      title,
+      description,
+      url,
+      resource_type,
+      isActive,
+      activeFrom,
+      activeTo,
       createdAt: new Date().toISOString()
     };
     
@@ -31,6 +43,6 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({ success: true, media: newMedia });
   } catch {
-    return NextResponse.json({ success: false, error: 'Failed to add media' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Failed to save media' }, { status: 500 });
   }
 }

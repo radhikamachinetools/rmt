@@ -1,6 +1,7 @@
 {
   "products": [
     {
+      "_id": "1",
       "id": "1",
       "slug": "c-2300-block-cutter",
       "name": "C-2300 Block Cutter",
@@ -22,6 +23,7 @@
       }
     },
     {
+      "_id": "2",
       "id": "2",
       "slug": "lpm-disk-polishing-machine",
       "name": "LPM Disk Polishing Machine",
@@ -32,17 +34,35 @@
       "images": [
         "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK.jpg",
         "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 2.jpg",
-        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 3.jpg"
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 3.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 4.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 5.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 6.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 7.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 8.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 9.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 10.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 11.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM DISK/LPM-DISK 12.jpg"
       ],
       "isFeatured": true,
       "order": 2,
-      "specifications": {
-        "power": "45 HP",
-        "polishingWidth": "1800mm",
-        "weight": "8000 kg"
-      }
+      "specifications": [
+        {
+          "spec": "Akshay",
+          "value": "nahi hai"
+        },
+        {
+          "spec": "akshay2 nahi ",
+          "value": "nahi hai 2 "
+        }
+      ],
+      "keyFeatures": [
+        "Akshay"
+      ]
     },
     {
+      "_id": "3",
       "id": "3",
       "slug": "lpm-flicker-machine",
       "name": "LPM Flicker Machine",
@@ -53,7 +73,11 @@
       "images": [
         "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 2.jpg",
         "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 3.jpg",
-        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 4.jpg"
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 4.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 5.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 6.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 9.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/LPM FLICKER/LPM RENDER FILE 11.jpg"
       ],
       "isFeatured": false,
       "order": 3,
@@ -64,6 +88,7 @@
       }
     },
     {
+      "_id": "4",
       "id": "4",
       "slug": "stone-processing-machine",
       "name": "Stone Processing Machine",
@@ -73,6 +98,8 @@
       "imageUrl": "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE.jpg",
       "images": [
         "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE 2.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/LPM RENDER FILE 3.jpg",
         "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/RJ RENDER 12.jpg",
         "/uploads/MACHINES RENDER COLLECTION/STONE MACHINE RENDER PERSONAL/RJ RENDER 13.jpg"
       ],
@@ -85,6 +112,7 @@
       }
     },
     {
+      "_id": "5",
       "id": "5",
       "slug": "wsm-wire-saw-machine",
       "name": "WSM Wire Saw Machine",
@@ -95,7 +123,10 @@
       "images": [
         "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE.jpg",
         "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 2.jpg",
-        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 3.jpg"
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 3.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 4.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 5.jpg",
+        "/uploads/MACHINES RENDER COLLECTION/WIRE SHAW PERSONAL/WSM MACHINE 6.jpg"
       ],
       "isFeatured": false,
       "order": 5,

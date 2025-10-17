@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { ArrowLeft, Phone, Mail } from "lucide-react";
 import Link from "next/link";
+import { promises as fs } from 'fs';
+import path from 'path';
+import ProductImageGallery from "./components/ProductImageGallery";
 
 type Product = {
   id: string;
@@ -11,7 +14,8 @@ type Product = {
   description: string;
   imageUrl: string;
   images?: string[];
-  specifications?: {
+  keyFeatures?: string[];
+  specifications?: Array<{spec: string; value: string}> | {
     power?: string;
     capacity?: string;
     weight?: string;
@@ -20,13 +24,10 @@ type Product = {
 
 async function getProduct(slug: string): Promise<Product | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/products/slug/${slug}`, {
-      cache: "no-store",
-    });
-    
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.success ? data.product : null;
+    const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'products.json');
+    const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
+    const { products } = JSON.parse(data);
+    return products.find((p: Product) => p.slug === slug) || null;
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;
@@ -50,6 +51,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     );
   }
 
+  const allImages = product.images || [product.imageUrl];
+
   return (
     <div className="min-h-screen bg-light-gray">
       <div className="container mx-auto px-4 py-8">
@@ -62,36 +65,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Images */}
-          <div className="space-y-4">
-            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-lg">
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={600}
-                height={600}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
-            {product.images && product.images.length > 1 && (
-              <div className="grid grid-cols-3 gap-4">
-                {product.images.slice(1, 4).map((image, index) => (
-                  <div key={index} className="aspect-square bg-white rounded-lg overflow-hidden shadow">
-                    <Image
-                      src={image}
-                      alt={`${product.name} ${index + 2}`}
-                      width={200}
-                      height={200}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ProductImageGallery images={allImages} productName={product.name} />
 
-          {/* Product Info */}
           <div className="space-y-6">
             <div>
               <span className="text-brand-green font-medium">{product.category}</span>
@@ -103,34 +78,57 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p>{product.description}</p>
             </div>
 
-            {/* Specifications */}
+            {product.keyFeatures && product.keyFeatures.length > 0 && (
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Key Features</h3>
+                <ul className="space-y-2">
+                  {product.keyFeatures.filter(feature => feature.trim()).map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="text-brand-green mt-1">•</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {product.specifications && (
               <div className="bg-white rounded-xl p-6 shadow-sm">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Specifications</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {product.specifications.power && (
-                    <div>
-                      <span className="text-sm text-gray-500">Power</span>
-                      <p className="font-semibold">{product.specifications.power}</p>
-                    </div>
-                  )}
-                  {product.specifications.capacity && (
-                    <div>
-                      <span className="text-sm text-gray-500">Capacity</span>
-                      <p className="font-semibold">{product.specifications.capacity}</p>
-                    </div>
-                  )}
-                  {product.specifications.weight && (
-                    <div>
-                      <span className="text-sm text-gray-500">Weight</span>
-                      <p className="font-semibold">{product.specifications.weight}</p>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {Array.isArray(product.specifications) ? (
+                    product.specifications.filter(spec => spec.spec && spec.value).map((spec, index) => (
+                      <div key={index}>
+                        <span className="text-sm text-gray-500">{spec.spec}</span>
+                        <p className="font-semibold">{spec.value}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      {product.specifications.power && (
+                        <div>
+                          <span className="text-sm text-gray-500">Power</span>
+                          <p className="font-semibold">{product.specifications.power}</p>
+                        </div>
+                      )}
+                      {product.specifications.capacity && (
+                        <div>
+                          <span className="text-sm text-gray-500">Capacity</span>
+                          <p className="font-semibold">{product.specifications.capacity}</p>
+                        </div>
+                      )}
+                      {product.specifications.weight && (
+                        <div>
+                          <span className="text-sm text-gray-500">Weight</span>
+                          <p className="font-semibold">{product.specifications.weight}</p>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
             )}
 
-            {/* Contact CTA */}
             <div className="bg-gradient-to-r from-brand-green to-brand-green-dark text-white rounded-xl p-6">
               <h3 className="text-xl font-bold mb-4">Interested in this machine?</h3>
               <p className="mb-6">Get in touch with our experts for pricing and customization options.</p>

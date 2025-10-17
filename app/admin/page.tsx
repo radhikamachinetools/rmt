@@ -2,8 +2,38 @@
 
 import Link from "next/link";
 import { Package, Mail, Image, BarChart3 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalContacts: 0,
+    pendingContacts: 0,
+    completedContacts: 0,
+    totalProducts: 5
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch('/api/contact');
+      const data = await res.json();
+      if (data.success) {
+        const contacts = data.contacts;
+        setStats({
+          totalContacts: contacts.length,
+          pendingContacts: contacts.filter((c: any) => c.status === 'pending' || !c.status).length,
+          completedContacts: contacts.filter((c: any) => c.status === 'completed').length,
+          totalProducts: 5
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
   return (
     <div className="w-full space-y-8">
       <div>
@@ -60,18 +90,22 @@ export default function AdminDashboard() {
 
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Stats</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-2xl font-bold text-brand-green">5</div>
+            <div className="text-2xl font-bold text-brand-green">{stats.totalProducts}</div>
             <div className="text-sm text-gray-600">Total Products</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-500">0</div>
-            <div className="text-sm text-gray-600">Contact Messages</div>
+            <div className="text-2xl font-bold text-blue-500">{stats.totalContacts}</div>
+            <div className="text-sm text-gray-600">Total Contacts</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-500">0</div>
-            <div className="text-sm text-gray-600">Media Files</div>
+            <div className="text-2xl font-bold text-yellow-500">{stats.pendingContacts}</div>
+            <div className="text-sm text-gray-600">Pending Queries</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-500">{stats.completedContacts}</div>
+            <div className="text-sm text-gray-600">Completed Queries</div>
           </div>
         </div>
       </div>

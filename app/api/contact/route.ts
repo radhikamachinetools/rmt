@@ -11,6 +11,12 @@ export async function POST(request: NextRequest) {
     const data = await fs.readFile(CONTACTS_FILE, 'utf8');
     const { contacts } = JSON.parse(data);
     
+    // Check if email already exists
+    const existingContact = contacts.find((contact: any) => contact.email === email);
+    if (existingContact) {
+      return NextResponse.json({ success: false, error: 'Query already exists for this email' }, { status: 400 });
+    }
+    
     const newContact = {
       id: Date.now().toString(),
       name,
@@ -19,6 +25,7 @@ export async function POST(request: NextRequest) {
       message,
       subject,
       company,
+      status: 'pending',
       createdAt: new Date().toISOString()
     };
     

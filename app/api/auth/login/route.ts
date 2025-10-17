@@ -13,16 +13,16 @@ export async function POST(request: NextRequest) {
     if (username === admin.username && password === admin.password) {
       const response = NextResponse.json({ success: true, message: 'Login successful' });
       response.cookies.set('admin-auth', 'true', {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: false,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
         path: '/'
       });
       return response;
     }
     
     return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ success: false, error: 'Login failed' }, { status: 500 });
   }
 }
