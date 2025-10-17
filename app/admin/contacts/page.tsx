@@ -296,7 +296,7 @@ export default function ContactsAdmin() {
           <div className="bg-brand-green-light rounded-xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold text-white mb-2">Update Status</h3>
             <p className="text-white mb-6">
-              Are you sure you want to update <strong>{confirmModal.contactName}</strong>'s status to <strong>{confirmModal.newStatus}</strong>?
+              Are you sure you want to update <strong>{confirmModal.contactName}</strong>&apos;s status to <strong>{confirmModal.newStatus}</strong>?
             </p>
             <div className="flex gap-3 justify-end">
               <button
@@ -321,7 +321,7 @@ export default function ContactsAdmin() {
           <div className="bg-brand-green-light rounded-xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold text-white mb-2">Delete Contact</h3>
             <p className="text-white mb-6">
-              Are you sure you want to delete <strong>{deleteModal.contactName}</strong>'s message? This action cannot be undone.
+              Are you sure you want to delete <strong>{deleteModal.contactName}</strong>&apos;s message? This action cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
               <button

@@ -24,8 +24,8 @@ export default function AdminDashboard() {
         const contacts = data.contacts;
         setStats({
           totalContacts: contacts.length,
-          pendingContacts: contacts.filter((c: any) => c.status === 'pending' || !c.status).length,
-          completedContacts: contacts.filter((c: any) => c.status === 'completed').length,
+          pendingContacts: contacts.filter((c: {status?: string}) => c.status === 'pending' || !c.status).length,
+          completedContacts: contacts.filter((c: {status?: string}) => c.status === 'completed').length,
           totalProducts: 5
         });
       }

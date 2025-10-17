@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const data = await fs.readFile(CONTACTS_FILE, 'utf8');
     const { contacts } = JSON.parse(data);
     
-    const contactIndex = contacts.findIndex((contact: any) => contact.id === id);
+    const contactIndex = contacts.findIndex((contact: {id: string}) => contact.id === id);
     if (contactIndex === -1) {
       return NextResponse.json({ success: false, error: 'Contact not found' }, { status: 404 });
     }
@@ -33,7 +33,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const data = await fs.readFile(CONTACTS_FILE, 'utf8');
     const { contacts } = JSON.parse(data);
     
-    const filteredContacts = contacts.filter((contact: any) => contact.id !== id);
+    const filteredContacts = contacts.filter((contact: {id: string}) => contact.id !== id);
     await fs.writeFile(CONTACTS_FILE, JSON.stringify({ contacts: filteredContacts }, null, 2));
     
     return NextResponse.json({ success: true });

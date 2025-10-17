@@ -20,7 +20,7 @@ type MediaItem = {
 export default function MediaAdmin() {
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
+
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [deleteModal, setDeleteModal] = useState<{show: boolean, mediaId: string, mediaTitle: string}>({show: false, mediaId: '', mediaTitle: ''});
 
@@ -33,8 +33,8 @@ export default function MediaAdmin() {
       const res = await fetch('/api/media');
       const data = await res.json();
       setMedia(data.success ? data.media : []);
-    } catch (error) {
-      console.error('Error fetching media:', error);
+    } catch {
+      console.error('Error fetching media');
     } finally {
       setLoading(false);
     }

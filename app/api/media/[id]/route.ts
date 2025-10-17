@@ -12,7 +12,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const data = await fs.readFile(MEDIA_FILE, 'utf8');
     const { media } = JSON.parse(data);
     
-    const index = media.findIndex((item: any) => item.id === id);
+    const index = media.findIndex((item: {id: string}) => item.id === id);
     if (index === -1) {
       return NextResponse.json({ success: false, error: 'Media not found' }, { status: 404 });
     }
@@ -43,7 +43,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const data = await fs.readFile(MEDIA_FILE, 'utf8');
     const { media } = JSON.parse(data);
     
-    const filteredMedia = media.filter((item: any) => item.id !== id);
+    const filteredMedia = media.filter((item: {id: string}) => item.id !== id);
     await fs.writeFile(MEDIA_FILE, JSON.stringify({ media: filteredMedia }, null, 2));
     
     return NextResponse.json({ success: true });
