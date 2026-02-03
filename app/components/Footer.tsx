@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Company Info */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-6">
@@ -66,85 +66,88 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6 text-brand-accent">
-              Quick Links
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link 
-                  href="/about" 
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/faq" 
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Quick Links & Support - Side by side on mobile */}
+          <div className="grid grid-cols-2 gap-6 lg:col-span-2 lg:grid-cols-2">
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-brand-accent">
+                Quick Links
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link 
+                    href="/about" 
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/products"
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    Products
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    href="/faq" 
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    FAQ
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Support Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6 text-brand-accent">
-              Support
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/privacy-policy"
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms-and-conditions"
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/service-center"
-                  className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
-                  Service Center
-                </Link>
-              </li>
-            </ul>
+            {/* Support Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-brand-accent">
+                Support
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms-and-conditions"
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/service-center"
+                    className="text-green-100 hover:text-white transition-colors duration-300 flex items-center gap-2 group text-sm"
+                  >
+                    <span className="w-1 h-1 bg-brand-accent rounded-full transition-all duration-300 group-hover:w-2"></span>
+                    Service Center
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}

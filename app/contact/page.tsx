@@ -61,11 +61,11 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24">
+      <section className="py-12 sm:py-16 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-xl">
-              <h2 className="text-3xl font-bold text-brand-green-dark mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl">
+              <h2 className="text-2xl sm:text-3xl font-bold text-brand-green-dark mb-6 sm:mb-8">
                 Send us a Message
               </h2>
               
@@ -84,8 +84,8 @@ export default function ContactPage() {
                 </div>
               )}
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       Full Name *
@@ -95,7 +95,7 @@ export default function ContactPage() {
                       id="name"
                       name="name"
                       required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                       placeholder="Your full name"
                     />
                   </div>
@@ -109,13 +109,13 @@ export default function ContactPage() {
                       id="email"
                       name="email"
                       required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                       placeholder="your@email.com"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                       Phone Number
@@ -124,7 +124,7 @@ export default function ContactPage() {
                       type="tel"
                       id="phone"
                       name="phone"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                       placeholder="+91 XXXXX XXXXX"
                     />
                   </div>
@@ -137,7 +137,7 @@ export default function ContactPage() {
                       type="text"
                       id="company"
                       name="company"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                       placeholder="Your company name"
                     />
                   </div>
@@ -150,7 +150,7 @@ export default function ContactPage() {
                   <select
                     id="subject"
                     name="subject"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                   >
                     <option value="">Select a subject</option>
                     <option value="product-inquiry">Product Inquiry</option>
@@ -170,7 +170,7 @@ export default function ContactPage() {
                     name="message"
                     rows={6}
                     required
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 resize-none"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 resize-none text-sm sm:text-base"
                     placeholder="Tell us about your requirements..."
                   ></textarea>
                 </div>
@@ -178,26 +178,26 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-brand-green text-white font-bold py-4 px-8 rounded-xl hover:bg-brand-green-dark transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-brand-green text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl hover:bg-brand-green-dark transition-all duration-300 transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2 sm:gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
-                  <Send size={20} />
+                  <Send size={18} className="sm:w-5 sm:h-5" />
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>
 
-            <div className="space-y-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
-                      <Phone className="text-white" size={24} />
+            <div className="space-y-6 sm:space-y-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
+                <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                      <Phone className="text-white" size={20} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Call Us</h3>
                       <a 
                         href="tel:+919983813366"
-                        className="text-brand-green hover:text-brand-green-dark transition-colors"
+                        className="text-brand-green hover:text-brand-green-dark transition-colors text-sm sm:text-base"
                       >
                         +91 9983813366
                       </a>
@@ -205,16 +205,16 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
-                      <Mail className="text-white" size={24} />
+                <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                      <Mail className="text-white" size={20} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Email Us</h3>
                       <a 
                         href="mailto:rmt.jodhpur@gmail.com"
-                        className="text-brand-green hover:text-brand-green-dark transition-colors"
+                        className="text-brand-green hover:text-brand-green-dark transition-colors text-sm sm:text-base"
                       >
                         rmt.jodhpur@gmail.com
                       </a>
@@ -223,29 +223,29 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold text-brand-green-dark mb-6">Our Locations</h3>
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg">
+                <h3 className="text-xl sm:text-2xl font-bold text-brand-green-dark mb-4 sm:mb-6">Our Locations</h3>
                 
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                      <MapPin className="text-white" size={20} />
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                      <MapPin className="text-white" size={16} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Unit-1 (Main Office)</h4>
-                      <p className="text-muted">
+                      <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Unit-1 (Main Office)</h4>
+                      <p className="text-muted text-xs sm:text-sm">
                         Plot No. 06, Ram Nagar, Sangriya, Jodhpur, Rajasthan, India
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                      <MapPin className="text-white" size={20} />
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                      <MapPin className="text-white" size={16} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Unit-2 (Manufacturing)</h4>
-                      <p className="text-muted">
+                      <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">Unit-2 (Manufacturing)</h4>
+                      <p className="text-muted text-xs sm:text-sm">
                         J-65, RIICO, 1st Phase, Sangriya, Jodhpur, Rajasthan, India
                       </p>
                     </div>
@@ -253,26 +253,26 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 bg-brand-green rounded-xl flex items-center justify-center">
-                    <Clock className="text-white" size={24} />
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg">
+                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-green rounded-xl flex items-center justify-center">
+                    <Clock className="text-white" size={20} />
                   </div>
-                  <h3 className="text-2xl font-bold text-brand-green-dark">Business Hours</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-brand-green-dark">Business Hours</h3>
                 </div>
                 
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Monday - Friday</span>
-                    <span className="font-semibold text-brand-green">9:00 AM - 6:00 PM</span>
+                    <span className="text-gray-700 text-sm sm:text-base">Monday - Friday</span>
+                    <span className="font-semibold text-brand-green text-sm sm:text-base">9:00 AM - 6:00 PM</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Saturday</span>
-                    <span className="font-semibold text-brand-green">9:00 AM - 4:00 PM</span>
+                    <span className="text-gray-700 text-sm sm:text-base">Saturday</span>
+                    <span className="font-semibold text-brand-green text-sm sm:text-base">9:00 AM - 4:00 PM</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Sunday</span>
-                    <span className="text-red-500">Closed</span>
+                    <span className="text-gray-700 text-sm sm:text-base">Sunday</span>
+                    <span className="text-red-500 text-sm sm:text-base">Closed</span>
                   </div>
                 </div>
               </div>
@@ -281,13 +281,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-green-dark mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-green-dark mb-4">
               Find Us on Map
             </h2>
-            <p className="text-muted">
+            <p className="text-muted text-sm sm:text-base">
               Visit our manufacturing facilities in Jodhpur, Rajasthan
             </p>
           </div>
@@ -296,7 +296,8 @@ export default function ContactPage() {
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3577.8!2d73.0243!3d26.2389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDE0JzIwLjAiTiA3M8KwMDEnMjcuNSJF!5e0!3m2!1sen!2sin!4v1234567890"
               width="100%"
-              height="400"
+              height="300"
+              className="sm:h-96 md:h-[400px]"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"

@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "_id": "1769611543163yc4nicqhh",
+      "type": "image",
+      "url": "/uploads/infrastructure/1769611543157-RADHIKA MACHINE TOOLS-B.pdf Page 6 image 2.png",
+      "title": "RADHIKA MACHINE TOOLS-B",
+      "description": "",
+      "order": 0
+    },
+    {
+      "_id": "1769611556606ann0d5gld",
+      "type": "video",
+      "url": "/uploads/infrastructure/1769611556568-vecteezy_automated-carpet-cleaning_74019588.mp4",
+      "title": "vecteezy_automated-carpet-cleaning_74019588",
+      "description": "",
+      "order": 1
+    },
+    {
+      "_id": "1769611564169gopexrmr4",
+      "type": "video",
+      "url": "/uploads/infrastructure/1769611563310-vecteezy_automated-carpet-cleaning-line_74019585.mp4",
+      "title": "vecteezy_automated-carpet-cleaning-line_74019585",
+      "description": "",
+      "order": 2
+    }
+  ]
+}

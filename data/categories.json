@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "_id": "1769489146563",
+      "name": "Granite Cutting Machine",
+      "slug": "granite-cutting-machine",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "_id": "1769489173351",
+      "name": "Granite Polishing Machine",
+      "slug": "granite-polishing-machine",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "_id": "1769489190514",
+      "name": "Edge Cutting Machine",
+      "slug": "edge-cutting-machine",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "_id": "1769489205274",
+      "name": "Handling Cranes",
+      "slug": "handling-cranes",
+      "status": "active",
+      "displayOrder": 4
+    },
+    {
+      "_id": "1769489205275",
+      "name": "Others",
+      "slug": "others",
+      "status": "active",
+      "displayOrder": 5
+    }
+  ]
+}

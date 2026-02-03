@@ -1,0 +1,50 @@
+{
+  "galleryCategories": [
+    {
+      "_id": "1769491228925",
+      "name": "Our Exhibition and Events",
+      "slug": "our-exhibition-and-events",
+      "headerImage": "/uploads/gallery/1769515696501-RADHIKA MACHINE TOOLS-B.pdf Page 1 image 1.png",
+      "displayOrder": 2
+    },
+    {
+      "_id": "1769491272694",
+      "name": "Quality",
+      "slug": "quality",
+      "headerImage": "/uploads/gallery/1769498198389-RADHIKA MACHINE TOOLS-B.pdf Page 3 image 3.png",
+      "displayOrder": 1
+    },
+    {
+      "_id": "1769491314136",
+      "name": "Innovation",
+      "slug": "innovation",
+      "headerImage": "",
+      "displayOrder": 3
+    },
+    {
+      "_id": "1769491344617",
+      "name": "Commitment",
+      "slug": "commitment",
+      "headerImage": "",
+      "displayOrder": 4
+    }
+  ],
+  "galleryItems": [
+    {
+      "_id": "1769515854973",
+      "categoryId": "1769491272694",
+      "type": "video",
+      "url": "/uploads/gallery/1769515853648-vecteezy_automated-carpet-cleaning_74019588.mp4",
+      "title": "we offer excellent quality",
+      "displayOrder": 1
+    },
+    {
+      "_id": "1769515905937",
+      "categoryId": "1769491272694",
+      "type": "image",
+      "url": "/uploads/gallery/1769515905376-RADHIKA MACHINE TOOLS-B.pdf Page 8 image 3.png",
+      "title": "Quality",
+      "displayOrder": 2
+    }
+  ]
+}

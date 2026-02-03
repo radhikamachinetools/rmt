@@ -14,41 +14,9 @@ export default function HeroClient() {
         transition={{ duration: 0.8 }}
         className="space-y-6"
       >
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm font-medium"
-        >
-          <span className="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></span>
-          Trusted by 500+ Industries Worldwide
-        </motion.div>
+        
 
-        {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight"
-        >
-          Engineering the Future of{" "}
-          <span className="text-brand-accent">Stone Processing</span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-lg sm:text-xl lg:text-2xl max-w-4xl mx-auto text-gray-200 leading-relaxed"
-        >
-          Radhika Machine Tools delivers precision, durability, and unmatched
-          performance in every machine we build. Transform your production with
-          cutting-edge technology.
-        </motion.p>
-
-        {/* CTA Buttons */}
+        {/* CTA Buttons - KEEP EXACT STRUCTURE */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,11 +39,11 @@ export default function HeroClient() {
             className="group bg-transparent border-2 border-white text-white font-semibold py-4 px-8 rounded-full text-lg hover:bg-white hover:text-brand-green-dark transition-all duration-300 flex items-center gap-3 min-w-[200px] justify-center backdrop-blur-sm"
           >
             <Play size={18} />
-            Watch Demo
+            Get Quote
           </Link>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats - KEEP EXACT STRUCTURE */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -100,6 +68,8 @@ export default function HeroClient() {
           </div>
         </motion.div>
       </motion.div>
+
+      
     </div>
   );
 }

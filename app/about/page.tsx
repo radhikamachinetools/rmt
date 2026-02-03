@@ -38,7 +38,7 @@ export default function AboutUsPage() {
         transition={{ duration: 1 }}
       >
         <Image
-          src="/images/about-us-bg.png"
+          src="/images/about-us.png"
           alt="Radhika Machineries Workshop"
           fill
           className="object-cover brightness-50"
@@ -56,7 +56,7 @@ export default function AboutUsPage() {
 
       {/* Introduction Section */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 text-center max-w-4xl">
+        <div className="px-0 text-center max-w-4xl mx-auto">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-brand-green-dark mb-6"
             initial={{ opacity: 0, y: 20 }}
@@ -86,7 +86,7 @@ export default function AboutUsPage() {
 
       {/* Our Core Values Section */}
       <section className="py-20 bg-light-gray">
-        <div className="container mx-auto px-4">
+        <div className="px-0">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-brand-green-dark">
             Our Core Values
           </h2>
