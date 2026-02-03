@@ -13,7 +13,8 @@ const ValueCard = ({
   icon,
   title,
   children,
-}: {
+}: 
+{
   icon: ReactNode;
   title: string;
   children: ReactNode;
