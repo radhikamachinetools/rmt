@@ -1,0 +1,36 @@
+{
+  "certificates": [
+    {
+      "title": "ssd",
+      "description": "zdd",
+      "imageUrl": "/uploads/certificates/1769788209460-RADHIKA MACHINE TOOLS-B.pdf Page 5 image 4.png",
+      "displayOrder": 1,
+      "status": "active",
+      "_id": "cert-1769661471275"
+    },
+    {
+      "title": "aser",
+      "description": "",
+      "imageUrl": "/uploads/certificates/1769661487258-RADHIKA MACHINE TOOLS-B.pdf Page 5 image 4.png",
+      "displayOrder": 1,
+      "status": "active",
+      "_id": "cert-1769661488869"
+    },
+    {
+      "title": "skd",
+      "description": "d",
+      "imageUrl": "/uploads/certificates/1769788234568-RADHIKA MACHINE TOOLS-B.pdf Page 5 image 4.png",
+      "displayOrder": 1,
+      "status": "active",
+      "_id": "cert-1769704134301"
+    },
+    {
+      "title": "av",
+      "description": "sk",
+      "imageUrl": "/uploads/certificates/1769788244844-RADHIKA MACHINE TOOLS-B.pdf Page 5 image 4.png",
+      "displayOrder": 1,
+      "status": "active",
+      "_id": "cert-1769704156956"
+    }
+  ]
+}

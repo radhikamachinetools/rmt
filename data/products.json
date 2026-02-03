@@ -16,11 +16,9 @@
       ],
       "isFeatured": true,
       "order": 1,
-      "specifications": {
-        "power": "75 HP",
-        "cuttingCapacity": "3000mm x 2000mm",
-        "weight": "15000 kg"
-      }
+      "specifications": [],
+      "keyFeatures": [],
+      "galleryUrls": []
     },
     {
       "_id": "2",
@@ -135,6 +133,1471 @@
         "cuttingLength": "4000mm",
         "weight": "18000 kg"
       }
+    },
+    {
+      "_id": "1769607019637",
+      "id": "1769607019637",
+      "name": "MONO BLADE CUTTER",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/mono-blade-cutter/RADHIKA MACHINE TOOLS-B.pdf Page 2 image 2.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Model/Model ABVC",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "POWER (HR/RPM)",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Main Motor",
+              "Up/Down",
+              "Left/Right"
+            ]
+          },
+          {
+            "label": "MAX CUTTING",
+            "colSpan": 4,
+            "align": "center",
+            "children": [
+              "Height (inch)",
+              "Length (inch)",
+              "Controlled Axis",
+              "Beam Length"
+            ]
+          },
+          {
+            "label": "MOTION",
+            "colSpan": 5,
+            "align": "center",
+            "children": [
+              "Up/Down",
+              "CT",
+              "LT",
+              "Mechanical Weight (Ton) Approx",
+              "Structure"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "model": "",
+            "values": [
+              "2.5 Mtr (Regular)",
+              "40/960",
+              "3/960",
+              "3/1440",
+              "39",
+              "144",
+              "2",
+              "20 ft",
+              "Screw",
+              "V Slide",
+              "Trolley",
+              "12",
+              "Cast Iron"
+            ]
+          },
+          {
+            "model": "",
+            "values": [
+              "3 Mtr (Regular)",
+              "50/960",
+              "5/960",
+              "5/1440",
+              "49",
+              "144",
+              "2",
+              "21.5 ft",
+              "Screw",
+              "V Slide",
+              "Trolley",
+              "14",
+              "Cast Iron"
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "FEATURES",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Robust",
+            "Maintenance Free",
+            "Record Production Capacity"
+          ]
+        },
+        {
+          "heading": "OPTIONAL",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "360degree Rotating Trolley",
+            "Customized Trolley Sizes"
+          ]
+        },
+        {
+          "heading": "CONTROL PANEL",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Control panel with ac drive counter type",
+            "Automatic slab thickness option available"
+          ]
+        }
+      ],
+      "slug": "mono-blade-cutter",
+      "order": 6
+    },
+    {
+      "_id": "1769663902334",
+      "id": "1769663902334",
+      "name": "CHALLENGER B-7 / B-10",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/challenger-b-7-b-10/RADHIKA MACHINE TOOLS-B.pdf Page 3 image 3.png",
+      "images": [
+        "/uploads/challenger-b-7-b-10/RADHIKA MACHINE TOOLS-B.pdf Page 3 image 2.png"
+      ],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Model / Variants",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Blade Set Sizes (Dia. Mtr.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Total No. of Blades",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Max. Useful cutting Black Size (Mtr.)",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Length",
+              "Width",
+              "Height"
+            ]
+          },
+          {
+            "label": "M/C Beam Length (Mtr.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Installed Motor Power",
+            "colSpan": 4,
+            "align": "center",
+            "children": [
+              "Blade Spindle",
+              "X Axis",
+              "Y Axis",
+              "Z Axis"
+            ]
+          },
+          {
+            "label": "Electrical",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Panel Type",
+              "Cables Make",
+              "Protection"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "CHALLENGER B-7",
+              "2.4/2.5",
+              "7",
+              "3.657",
+              "2.438",
+              "1.066",
+              "8.8 Mtr.",
+              "60 HP/960",
+              "3HP",
+              "2 HP",
+              "3 HP",
+              "PLC",
+              "LAPP / HELU KABEL GERMAN MAKE",
+              "IP 54/55"
+            ]
+          },
+          {
+            "values": [
+              "CHALLENGER B-10",
+              "2.4/2.5",
+              "10",
+              "3.657",
+              "2.438",
+              "1.066",
+              "8.8 Mtr.",
+              "75 HP/960",
+              "5 HP",
+              "2 HP",
+              "3 HP",
+              "PLC",
+              "LAPP / HELU KABEL GERMAN MAKE",
+              "IP 54/55"
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "FEATURES",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "PLC Type Panel",
+            "Robust Design",
+            "Heavy Duty Beam"
+          ]
+        },
+        {
+          "heading": "HIGHLIGHTS",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Benefit for Small Size Stone Blocks",
+            "Side Entry Technology",
+            "Accurate Cutting"
+          ]
+        },
+        {
+          "heading": "OPTIONAL",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Customized Trolley Sizes"
+          ]
+        }
+      ],
+      "slug": "challenger-b-7-b-10",
+      "order": 7
+    },
+    {
+      "_id": "1769665677244",
+      "id": "1769665677244",
+      "name": "CHALLENGER B-14",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/challenger-b-14/RADHIKA MACHINE TOOLS-B.pdf Page 4 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Model / Variants",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Blade Set Sizes (Dia. Mtr.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Total No. of Blades",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Max. Useful cutting Black Size (Mtr.)",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Length",
+              "Width",
+              "Height"
+            ]
+          },
+          {
+            "label": "M/C Beam Length (Mtr.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Installed Motor Power",
+            "colSpan": 4,
+            "align": "center",
+            "children": [
+              "Blade Spindle",
+              "X Axis",
+              "Y Axis",
+              "Z Axis"
+            ]
+          },
+          {
+            "label": "Electrical",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Panel Type",
+              "Cables Make",
+              "Protection"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "CHALLENGER B-14",
+              "2.4/2.5",
+              "14",
+              "3.657",
+              "2.438",
+              "1.066",
+              "8.8 Mtr.",
+              "120 HP/960",
+              "5 HP",
+              "2 HP",
+              "3 HP",
+              "PLC",
+              "LAPP / HELU KABEL GERMAN MAKE",
+              "IP 54/55",
+              "",
+              "",
+              ""
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "FEATURES",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "PLC Type Panel",
+            "Robust Design",
+            "Heavy Duty Beam"
+          ]
+        },
+        {
+          "heading": "HIGHLIGHTS",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Benefit for Large Size Stone Blocks",
+            "Side Entry Technology",
+            "Accurate Cutting"
+          ]
+        },
+        {
+          "heading": "OPTIONAL",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Customized Trolley Sizes"
+          ]
+        }
+      ],
+      "slug": "challenger-b-14",
+      "order": 8
+    },
+    {
+      "_id": "1769668830039",
+      "id": "1769668830039",
+      "name": "DUAL RPM SERIES",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/dual-rpm-ser/RADHIKA MACHINE TOOLS-B.pdf Page 5 image 5.png",
+      "images": [
+        "/uploads/dual-rpm-ser/RADHIKA MACHINE TOOLS-B.pdf Page 5 image 1.png",
+        "/uploads/dual-rpm-ser/RADHIKA MACHINE TOOLS-B.pdf Page 5 image 2.png",
+        "/uploads/dual-rpm-ser/RADHIKA MACHINE TOOLS-B.pdf Page 5 image 3.png",
+        "/uploads/dual-rpm-ser/RADHIKA MACHINE TOOLS-B.pdf Page 5 image 4.png"
+      ],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "CHALLENGER B-14 DUAL RPM",
+            "colSpan": 2,
+            "align": "center"
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "Mud Protection Cover's",
+              "Cloth Fabric / Cloth Fabric "
+            ]
+          },
+          {
+            "values": [
+              "X Axis",
+              "Bellow Cover"
+            ]
+          },
+          {
+            "values": [
+              "Y Axis ",
+              "Green Sheet"
+            ]
+          },
+          {
+            "values": [
+              "Z Axis",
+              "Cloth Fabric "
+            ]
+          },
+          {
+            "values": [
+              "Cable's",
+              "LAPP (German Make) / HELU KABEL (German Make)"
+            ]
+          },
+          {
+            "values": [
+              "X-Y-Z Axis",
+              "Drag Chain / Drag Chain"
+            ]
+          },
+          {
+            "values": [
+              "Bearing",
+              "Japanese NTN / NACHI / KOYO"
+            ]
+          },
+          {
+            "values": [
+              "Block Feeding Trolley -2 Nos.",
+              "9x7 Feet Manual / 9x7 Feet Manual"
+            ]
+          },
+          {
+            "values": [
+              "Blade Handling System",
+              "Electric Jib Hoist (500 kg)"
+            ]
+          },
+          {
+            "values": [
+              "Slab Thickness Spacers",
+              "1 Set (For Slab 16 mm to 20 mm) "
+            ]
+          },
+          {
+            "values": [
+              "Panel Cabinet",
+              "Automatic PLC Based Panel (Equipped with German Std. Electrical)"
+            ]
+          }
+        ],
+        "tableHeading": "FEATURES"
+      },
+      "videos": [],
+      "contentSections": [],
+      "slug": "dual-rpm-series",
+      "order": 9
+    },
+    {
+      "_id": "1769670807327",
+      "id": "1769670807327",
+      "name": "MULTI BLADE BLOCK CUTTER RMT G-5 / G-7",
+      "category": "Granite Cutting Machine",
+      "model": "",
+      "description": "Heavy duty casted and Beam pillars used for robust life performance. Linear guide ways bearing technology used for smoth left right movement of cutter that provides high speed and accuracy. Gear housing with double helical gear provides strength during cutting hard granite block.",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/multi-blade-block-cutter-rmt-g-5-g-7/RADHIKA MACHINE TOOLS-B.pdf Page 6 image 2.png",
+      "images": [
+        "/uploads/multi-blade-block-cutter-rmt-g-5-g-7/RADHIKA MACHINE TOOLS-B.pdf Page 6 image 3.png",
+        "/uploads/multi-blade-block-cutter-rmt-g-5-g-7/RADHIKA MACHINE TOOLS-B.pdf Page 6 image 4.png",
+        "/uploads/multi-blade-block-cutter-rmt-g-5-g-7/RADHIKA MACHINE TOOLS-B.pdf Page 6 image 5.png"
+      ],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Model",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Blade Max Diameter (mm)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Number of Blades",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Length of Blades (mm)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Dimensions of trolley (mm)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Max Cutting Size LxHxW (mm)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Spindle Drive Motor (H.P.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Gross Weigth (Tons)",
+            "colSpan": 1,
+            "align": "center"
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "RMT G-5 2300",
+              "2300",
+              "5",
+              "6100",
+              "2700x1850",
+              "3500 x 1000 x 1800",
+              "50 H.P. / 960 RPM",
+              "14"
+            ]
+          },
+          {
+            "values": [
+              "RMT G-7 2400",
+              "2400",
+              "7",
+              "7300",
+              "2700x1850",
+              "3500 x 1000 x 1800",
+              "60 H.P. / 960 RPM",
+              "16.5"
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [],
+      "slug": "multi-blade-block-cutter-rmt-g-5-g-7",
+      "order": 10
+    },
+    {
+      "_id": "1769671811208",
+      "id": "1769671811208",
+      "name": "SLAB AUTO POLISHING MACHINE",
+      "category": "Granite Polishing Machine",
+      "model": "",
+      "description": "PLC Controlled, Auto polishing machine, with touch screen operator panel, suitable mounting upto 6 bricks flicker head.",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/slab-auto-polishing-machine/RADHIKA MACHINE TOOLS-B.pdf Page 6 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "S.No.",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Description",
+            "colSpan": 1,
+            "align": "center"
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "1",
+              "M.S. Fabricated Beam and Structure"
+            ]
+          },
+          {
+            "values": [
+              "2",
+              "Left and Right motor 2 H.P."
+            ]
+          },
+          {
+            "values": [
+              "3",
+              "Main Motor - 7.5 HP / 10 H.P. / 12 H.P."
+            ]
+          },
+          {
+            "values": [
+              "4",
+              "Reverse / Forward Motor - 2 H.P. / 3 H.P."
+            ]
+          },
+          {
+            "values": [
+              "5",
+              "Control Panel"
+            ]
+          },
+          {
+            "values": [
+              "6",
+              "Fitting Included"
+            ]
+          }
+        ],
+        "tableHeading": "MACHINE WITH ACCESSORIES"
+      },
+      "videos": [],
+      "contentSections": [],
+      "slug": "slab-auto-polishing-machine",
+      "order": 11
+    },
+    {
+      "_id": "1769685479441",
+      "id": "1769685479441",
+      "name": "LINE POLISHING MACHINE",
+      "category": "Granite Polishing Machine",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/line-polishing-machine/RADHIKA MACHINE TOOLS-B.pdf Page 7 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Model / Variants",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "No. of Heads",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Max. Polishing (mm)",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Thickness",
+              "Width"
+            ]
+          },
+          {
+            "label": "Power (hp/Nm)",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Bridge",
+              "Conveyor"
+            ]
+          },
+          {
+            "label": "",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Type of Heads",
+              "Conveyor"
+            ]
+          },
+          {
+            "label": "Motion",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Bridge",
+              "Up/Down"
+            ]
+          },
+          {
+            "label": "Electrical",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Panel Type",
+              "Cables Make"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "LPM 1300/9/6",
+              "9",
+              "50",
+              "1300",
+              "10 HP",
+              "2",
+              "CO. ME.S - Italy Flicker Type",
+              "Gear Motor Unit",
+              "Roller Cage Slides",
+              "Pneumatic Cylinders",
+              "PLC",
+              "LAPP / HELU KABEL GERMAN MAKE",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "values": [
+              "LPM 1300/12/6",
+              "12",
+              "50",
+              "1300",
+              "12.5 HP",
+              "3",
+              "CO. ME.S - Italy Flicker Type",
+              "Gear Motor Unit",
+              "Roller Cage Slides",
+              "Pneumatic Cylinders",
+              "PLC",
+              "LAPP / HELU KABEL GERMAN MAKE",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "FEATURES",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Heavy Duty Housing Assembly",
+            "Heavy barrel & spline system",
+            "Best quality conveyer belt",
+            "Low Power consumption",
+            "Low abrasive cost",
+            "High quality paint",
+            "High Productivity ",
+            "Heavy Structure",
+            "Autolubrication System"
+          ]
+        },
+        {
+          "heading": "HIGHLIGHTS",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "DELTA PLC & HMI",
+            "All Switch Gears SCHNEIDER",
+            "Panel is placed behind the machine"
+          ]
+        }
+      ],
+      "slug": "line-polishing-machine",
+      "order": 12
+    },
+    {
+      "_id": "1769686085657",
+      "id": "1769686085657",
+      "name": "STONE SHOT BLASTING MACHINE",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 1.png",
+      "images": [
+        "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 3.png",
+        "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 2.png",
+        "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 4.png",
+        "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 5.png",
+        "/uploads/stone-shot-blasting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 8 image 6.png"
+      ],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [],
+        "rows": []
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "STONE / MARBLESHOT BLASTING MACHINE",
+          "description": "This Machine used to clean, roughen, or polish stone or marble surfaces by propelling abrasive materials at high velocity.",
+          "listType": "bullet",
+          "items": []
+        },
+        {
+          "heading": "TECHNOLOGY",
+          "description": "Automatic Wheel Blasting",
+          "listType": "bullet",
+          "items": []
+        },
+        {
+          "heading": "WORKING SYSTEM",
+          "description": "It's a specialized equipment designed for the surface treatment of stone and marble products. It utilizes abrasive blasting to remove surface contamniants, roughen the surface texture, and enhance the appearance of natural stone and marble surfaces.",
+          "listType": "bullet",
+          "items": []
+        }
+      ],
+      "slug": "stone-shot-blasting-machine",
+      "order": 13
+    },
+    {
+      "_id": "1769698317311",
+      "id": "1769698317311",
+      "name": "BRIDGE TYPE EDGE CUTTING MACHINE",
+      "category": "Edge Cutting Machine",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/bridge-type-edge-cutting-machine/RADHIKA MACHINE TOOLS-B.pdf Page 10 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Particular",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Value / Spec",
+            "colSpan": 1,
+            "align": "center"
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "Trolley Length / Width",
+              "3200/1850mm"
+            ]
+          },
+          {
+            "values": [
+              "Cutter Size",
+              "300-600mm"
+            ]
+          },
+          {
+            "values": [
+              "Overall Dimension",
+              "6000 x 4700 x 3300 mm"
+            ]
+          },
+          {
+            "values": [
+              "Workable Rotation Range",
+              "0-90 Deg. / 0-360 Deg."
+            ]
+          },
+          {
+            "values": [
+              "Trolley",
+              "Tilting up to 85 degree (Hydraulic)"
+            ]
+          },
+          {
+            "values": [
+              "Working Voltage",
+              "AC 415V/3HP, 50 Hz"
+            ]
+          },
+          {
+            "values": [
+              "Main Spindle Motor",
+              "18.5 KW - IP 66 with VFD"
+            ]
+          },
+          {
+            "values": [
+              "Left/Right Servo Motors",
+              "1.5 KW with Servo motor with servo planetary gearbox"
+            ]
+          },
+          {
+            "values": [
+              "Fwd./Rev. Servo Motors",
+              "1.5 KW with Servo motor with servo planetary gearbox"
+            ]
+          },
+          {
+            "values": [
+              "Trolley Tilting (Hydraulic Motor)",
+              "2.2 KW"
+            ]
+          },
+          {
+            "values": [
+              "Spindle Up/Down Motor",
+              "1 HP motor with VFD"
+            ]
+          },
+          {
+            "values": [
+              "Machine Weight",
+              "7000 kg"
+            ]
+          },
+          {
+            "values": [
+              "Oil Lubrication Motor",
+              ".37 KW"
+            ]
+          },
+          {
+            "values": [
+              "Profile Cutting",
+              "Not Applicable"
+            ]
+          },
+          {
+            "values": [
+              "Total Power Consumption",
+              "24.KW"
+            ]
+          },
+          {
+            "values": [
+              "Control Panel",
+              "Fully Automatic PLC Panel"
+            ]
+          },
+          {
+            "values": [
+              "Rack & Pinion",
+              "High Precision Helical Racks & pinion"
+            ]
+          },
+          {
+            "values": [
+              "Max. Cutting Height",
+              "220 mm"
+            ]
+          }
+        ],
+        "tableHeading": "AUTOMATED BRIDGE TYPE CUTTING MACHINE"
+      },
+      "videos": [],
+      "contentSections": [],
+      "slug": "bridge-type-edge-cutting-machine",
+      "order": 14
+    },
+    {
+      "_id": "1769699915337",
+      "id": "1769699915337",
+      "name": "CNC ROUTER MACHINES",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/cnc-router-machines/RADHIKA MACHINE TOOLS-B.pdf Page 11 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Parameter",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Example Machine / Model",
+            "colSpan": 1,
+            "align": "center"
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "Working area",
+              "1500x2500x300mm"
+            ]
+          },
+          {
+            "values": [
+              "Cooling type",
+              "water cooled spindle/air cooled spindle optional"
+            ]
+          },
+          {
+            "values": [
+              "Spindle power",
+              "5.5 kw/7.5"
+            ]
+          },
+          {
+            "values": [
+              "Spindle rotating speed",
+              "18000 rpm/24000rmp"
+            ]
+          },
+          {
+            "values": [
+              "Power (except spindle power)",
+              "6.8KW (include powers of motors, drivers, inverters and so on)"
+            ]
+          },
+          {
+            "values": [
+              "Power supply",
+              "3phase 380v/220v, 50 Hz"
+            ]
+          },
+          {
+            "values": [
+              "Worktable",
+              "T slot table with water tank"
+            ]
+          },
+          {
+            "values": [
+              "Locating precision",
+              "<0.03mm"
+            ]
+          },
+          {
+            "values": [
+              "Min shaping character",
+              "Character 3x3mm,letter 1x1mm"
+            ]
+          },
+          {
+            "values": [
+              "Control configuration",
+              "Mach3/ DSP/ NK260/ Syntec 6MA control system optional"
+            ]
+          },
+          {
+            "values": [
+              "System environment ",
+              "Via computer/ its own panel"
+            ]
+          },
+          {
+            "values": [
+              "Spindle cooling way",
+              "Water cooling by water pump/ Air cooling by fan inside spindle"
+            ]
+          },
+          {
+            "values": [
+              "Graphic format supported",
+              "G code *.u00, * mmg, * plt, *.nc"
+            ]
+          },
+          {
+            "values": [
+              "Compatible sotware",
+              "ARTCAM,UCANCAM ,Type3 and other CAD or CAM softwares…."
+            ]
+          },
+          {
+            "values": [
+              "Cutting thickness",
+              "0-40mm also (depends on different material)"
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [],
+      "slug": "cnc-router-machines",
+      "order": 15
+    },
+    {
+      "_id": "1769702331414",
+      "id": "1769702331414",
+      "name": "GANTRY CRANE",
+      "category": "Others",
+      "model": "",
+      "description": "",
+      "additionalDescriptions": [],
+      "imageUrl": "/uploads/gantry-crane/RADHIKA MACHINE TOOLS-B.pdf Page 9 image 1.png",
+      "images": [],
+      "isFeatured": false,
+      "status": "active",
+      "technicalInfo": [],
+      "technicalTable": {
+        "headers": [
+          "Model",
+          "Motor Power",
+          "Dimensions",
+          "Weight"
+        ],
+        "rows": []
+      },
+      "technicalInformation": {
+        "headers": [
+          {
+            "label": "Weight Capacity (Tons)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Type Size",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "OH Size (Mtr.)",
+            "colSpan": 1,
+            "align": "center"
+          },
+          {
+            "label": "Standard",
+            "colSpan": 3,
+            "align": "center",
+            "children": [
+              "Span Size Mtr.",
+              "Height of Left Mtr.",
+              "Duty Class"
+            ]
+          },
+          {
+            "label": "Main Hoist (Mtr./Min)",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Single Speed",
+              "Double Speed"
+            ]
+          },
+          {
+            "label": "LT (Mtr./Min)",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Single Speed",
+              "Sub Column"
+            ]
+          },
+          {
+            "label": "CT (Mtr./Min) ",
+            "colSpan": 2,
+            "align": "center",
+            "children": [
+              "Single Speed",
+              "Double Speed"
+            ]
+          },
+          {
+            "label": "Panel Type",
+            "colSpan": 1,
+            "align": "center",
+            "children": [
+              "Type"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "values": [
+              "30",
+              "WOH",
+              "-",
+              "9",
+              "6",
+              "M4",
+              "1.2",
+              "Optional",
+              "8",
+              "Optional",
+              "10",
+              "Optional",
+              "Standard"
+            ]
+          },
+          {
+            "values": [
+              "40",
+              "OH",
+              "3.8",
+              "12",
+              "6",
+              "M4",
+              "1.2",
+              "Optional",
+              "8",
+              "Optional",
+              "10",
+              "Optional",
+              "Standard"
+            ]
+          },
+          {
+            "values": [
+              "50",
+              "OH",
+              "4",
+              "15",
+              "6.5",
+              "M5",
+              "1.2",
+              "Optional",
+              "8",
+              "Optional",
+              "10",
+              "Optional",
+              "Standard"
+            ]
+          },
+          {
+            "values": [
+              "60",
+              "OH",
+              "7",
+              "25",
+              "7",
+              "M5",
+              "1.2",
+              "Optional",
+              "8",
+              "Optional",
+              "10",
+              "Optional",
+              "Standard"
+            ]
+          }
+        ],
+        "tableHeading": "TECHNICAL INFORMATION"
+      },
+      "videos": [],
+      "contentSections": [
+        {
+          "heading": "FEATURES",
+          "description": "",
+          "listType": "bullet",
+          "items": [
+            "Safe flange beam joint, suitable to normal size container / shipment.",
+            "Higher service/safety factor crane duty components.",
+            "8 wheel Bogie Type L.T. Arrangement."
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "name": "GANTRY CRANE",
+          "model": "",
+          "description": "",
+          "specifications": [],
+          "contentSections": [
+            {
+              "heading": "FEATURES",
+              "description": "",
+              "listType": "bullet",
+              "items": [
+                "Safe flange beam joint, suitable to normal size container/shipment.",
+                "Higher service/safety factor crane duty components."
+              ]
+            }
+          ],
+          "technicalInformation": {
+            "headers": [
+              {
+                "label": "Weight Capacity (Tons)",
+                "colSpan": 1,
+                "align": "center"
+              },
+              {
+                "label": "Standard",
+                "colSpan": 3,
+                "align": "center",
+                "children": [
+                  "Span Size Mtr.",
+                  "Height of Left Mtr.",
+                  "Duty Class"
+                ]
+              },
+              {
+                "label": "Main Hoist (Mtr./Min) ",
+                "colSpan": 2,
+                "align": "center",
+                "children": [
+                  "Slow Speed",
+                  "Fast Speed"
+                ]
+              },
+              {
+                "label": "LT (Mtr./Min)",
+                "colSpan": 2,
+                "align": "center",
+                "children": [
+                  "Slow Speed",
+                  "Fast Speed"
+                ]
+              },
+              {
+                "label": "CT (Mtr./Min)",
+                "colSpan": 2,
+                "align": "center",
+                "children": [
+                  "Single Speed",
+                  "Fast Speed"
+                ]
+              },
+              {
+                "label": "Panel Type",
+                "colSpan": 1,
+                "align": "center",
+                "children": [
+                  "Type"
+                ]
+              }
+            ],
+            "rows": [],
+            "tableHeading": "TECHNICAL INFORMATION"
+          },
+          "imageUrl": "blob:http://localhost:3000/7b4aa00f-32a2-45e9-b412-7fdff1c462c5"
+        }
+      ],
+      "slug": "gantry-crane",
+      "order": 16
     }
   ]
 }
