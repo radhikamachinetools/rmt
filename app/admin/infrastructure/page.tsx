@@ -60,8 +60,9 @@ export default function InfrastructurePage() {
   };
 
   const deleteItem = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      const res = await fetch(`/api/infrastructure/${id}`, {
+      const res = await fetch(`/api/infrastructure?id=${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -74,7 +75,7 @@ export default function InfrastructurePage() {
 
   const updateItem = async (id: string, updates: Partial<InfrastructureItem>) => {
     try {
-      const res = await fetch(`/api/infrastructure/${id}`, {
+      const res = await fetch(`/api/infrastructure?id=${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)

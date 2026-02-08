@@ -114,6 +114,15 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className={`hidden lg:flex lg:items-center lg:space-x-6 ${styles.navContainer}`}>
+              <a
+                href="/uploads/RADHIKA MACHINE TOOLS-B.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-100 hover:text-white transition-colors duration-300 font-medium relative group"
+              >
+                Check Brochure
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+              </a>
               <Link
                 href="/"
                 className="text-green-100 hover:text-white transition-colors duration-300 font-medium relative group"
@@ -200,6 +209,15 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden bg-white shadow-xl border-t border-gray-200 animate-slide-up">
             <div className="py-4">
+              <a
+                href="/uploads/RADHIKA MACHINE TOOLS-B.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="block px-6 py-3 text-gray-800 hover:bg-green-50 hover:text-brand-green-dark transition-colors font-medium"
+              >
+                Check Brochure
+              </a>
               <Link
                 href="/"
                 onClick={() => setIsMenuOpen(false)}

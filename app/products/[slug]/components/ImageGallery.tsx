@@ -37,7 +37,7 @@ export default function ImageGallery({ images, videos = [], productName, onImage
 
   return (
     <div className="lg:w-1/2">
-      <div className="sticky top-0 h-screen flex flex-col">
+      <div className="h-screen flex flex-col overflow-hidden">
         <div className="flex-1 flex items-center justify-center">
           <div className="w-[600px] h-[600px] flex items-center justify-center">
             {currentMedia?.type === 'video' ? (

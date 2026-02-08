@@ -1,0 +1,13 @@
+.productContainer {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.rightPanel {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.bottomSection {
+  position: static !important;
+}

@@ -199,12 +199,20 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             {/* Show technical table in right panel when there are no content sections or only one content section */}
             {(!currentContent.contentSections || currentContent.contentSections.length <= 1) && ((product.technicalTable && product.technicalTable.headers.length > 0) || (product.technicalInformation && product.technicalInformation.headers.length > 0)) && (
               <div className="mt-6">
-                <h2 className="text-lg font-bold text-teal-700 mb-4 uppercase tracking-wide">
-                  {product.technicalInformation?.tableHeading || product.technicalTable?.tableHeading || 'TECHNICAL INFORMATION'}
-                </h2>
-                <div className="overflow-x-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-teal-700 uppercase tracking-wide">
+                    {product.technicalInformation?.tableHeading || product.technicalTable?.tableHeading || 'TECHNICAL INFORMATION'}
+                  </h2>
+                  <div className="text-xs text-gray-500 flex items-center gap-1 md:hidden">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                    </svg>
+                    Scroll to view
+                  </div>
+                </div>
+                <div style={{overflowX: 'scroll', width: '100%'}}>
                   {product.technicalInformation ? (
-                    <table className="w-full bg-white border-collapse border border-zinc-400">
+                    <table style={{minWidth: '800px'}} className="bg-white border-collapse">
                       <thead>
                         <tr>
                           {product.technicalInformation.headers.map((header, index) => (
@@ -270,13 +278,13 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                       </tbody>
                     </table>
                   ) : (
-                    <table className="w-full bg-white">
+                    <table style={{minWidth: '800px'}} className="bg-white">
                       <thead>
                         <tr>
                           {product.technicalTable!.headers.map((header, index) => (
                             <th
                               key={index}
-                              className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider border-r border-zinc-700 last:border-r-0"
+                              className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider border-r border-zinc-400 last:border-r-0 bg-teal-700 text-white whitespace-nowrap"
                             >
                               {header}
                             </th>
@@ -294,7 +302,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                             {row.map((cell, cellIndex) => (
                               <td
                                 key={cellIndex}
-                                className="px-6 py-4 text-sm text-zinc-900 border-r border-zinc-200 last:border-r-0 font-mono"
+                                className="px-6 py-4 text-sm text-zinc-900 border-r border-zinc-400 last:border-r-0 font-mono whitespace-nowrap"
                               >
                                 {cell}
                               </td>
@@ -315,12 +323,20 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       {(product.contentSections && product.contentSections.length > 1) && ((product.technicalTable && product.technicalTable.headers.length > 0) || (product.technicalInformation && product.technicalInformation.headers.length > 0)) ? (
         <div className="bg-zinc-50 mt-4">
           <div className="px-8 py-8">
-            <h2 className="text-2xl font-bold text-teal-700 mb-8 uppercase tracking-wide font-mono">
-              {product.technicalInformation?.tableHeading || product.technicalTable?.tableHeading || 'TECHNICAL INFORMATION'}
-            </h2>
-            <div className="overflow-x-auto">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl font-bold text-teal-700 uppercase tracking-wide font-mono">
+                {product.technicalInformation?.tableHeading || product.technicalTable?.tableHeading || 'TECHNICAL INFORMATION'}
+              </h2>
+              <div className="text-sm text-gray-500 flex items-center gap-2 md:hidden">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                </svg>
+                Swipe to scroll
+              </div>
+            </div>
+            <div style={{overflowX: 'scroll', width: '100%'}}>
               {product.technicalInformation ? (
-                <table className="w-full bg-white border-collapse border border-zinc-400">
+                <table style={{minWidth: '800px'}} className="bg-white border-collapse">
                   <thead>
                     <tr>
                       {product.technicalInformation.headers.map((header, index) => (
@@ -388,13 +404,13 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   </tbody>
                 </table>
               ) : (
-                <table className="w-full bg-white">
+                <table style={{minWidth: '800px'}} className="bg-white">
                   <thead>
                     <tr>
                       {product.technicalTable!.headers.map((header, index) => (
                         <th
                           key={index}
-                          className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider border-r border-zinc-700 last:border-r-0"
+                          className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider border-r border-zinc-400 last:border-r-0 bg-teal-700 text-white whitespace-nowrap"
                         >
                           {header}
                         </th>
@@ -412,7 +428,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                         {row.map((cell, cellIndex) => (
                           <td
                             key={cellIndex}
-                            className="px-6 py-4 text-sm text-zinc-900 border-r border-zinc-200 last:border-r-0 font-mono"
+                            className="px-6 py-4 text-sm text-zinc-900 border-r border-zinc-400 last:border-r-0 font-mono whitespace-nowrap"
                           >
                             {cell}
                           </td>
