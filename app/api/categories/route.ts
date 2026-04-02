@@ -26,7 +26,8 @@ export async function POST(request: NextRequest) {
       categoriesData = { categories: [] };
     }
     
-    categoriesData.categories.push(newCategory);
+    const id = Date.now().toString();
+    categoriesData.categories.push({ _id: id, ...newCategory });
     
     await fs.writeFile(CATEGORIES_FILE, JSON.stringify(categoriesData, null, 2));
     return NextResponse.json({ success: true });

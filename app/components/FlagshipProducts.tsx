@@ -25,7 +25,7 @@ const FlagshipProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/products');
+        const response = await fetch('/api/products');
         const data = await response.json();
         setProducts(data.products || []);
       } catch (error) {
@@ -111,7 +111,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="aspect-[4/3] bg-gray-100 overflow-hidden relative">
         {product.imageUrl ? (
           <Image
-            src={`http://localhost:3001${product.imageUrl}`}
+            src={product.imageUrl}
             alt={product.name}
             width={400}
             height={300}
