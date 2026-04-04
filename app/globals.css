@@ -254,17 +254,91 @@ body {
   outline-offset: 2px;
 }
 
+/* Enhanced Modal Styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .modal-overlay {
+    align-items: center;
+    padding: 1rem;
+  }
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  background-color: white;
+  border: 0;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.25rem;
+  max-height: 95vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease-out;
+}
+
+@media (min-width: 640px) {
+  .modal-content {
+    max-width: 32rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.modal-close-btn {
+  padding: 0.375rem;
+  color: #9ca3af;
+  border-radius: 0.5rem;
+  transition: all 0.15s ease-in-out;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  color: #4b5563;
+  background-color: #f3f4f6;
+}
+
+/* Form field improvements */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
 /* Animation utilities */
 .animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.6s ease-out;
+  animation: slideUp 0.3s ease-out;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.4s ease-out;
+  animation: scaleIn 0.2s ease-out;
 }
 
 @keyframes fadeIn {
@@ -279,7 +353,7 @@ body {
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;

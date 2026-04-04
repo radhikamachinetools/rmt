@@ -1,49 +1,69 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const CONTACTS_FILE = path.join(process.cwd(), 'data', 'contacts.json');
+import { connectToDatabase } from '../../lib/mongodb';
 
 export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, message, subject, company } = await request.json();
     
-    const data = await fs.readFile(CONTACTS_FILE, 'utf8');
-    const { contacts } = JSON.parse(data);
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { success: false, error: 'Name, email, and message are required' },
+        { status: 400 }
+      );
+    }
+
+    const { db } = await connectToDatabase();
     
     // Check if email already exists
-    const existingContact = contacts.find((contact: {email: string}) => contact.email === email);
+    const existingContact = await db.collection('rmt_contacts').findOne({ email });
     if (existingContact) {
-      return NextResponse.json({ success: false, error: 'Query already exists for this email' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: 'Query already exists for this email' },
+        { status: 400 }
+      );
     }
     
     const newContact = {
-      id: Date.now().toString(),
       name,
       email,
-      phone,
+      phone: phone || '',
       message,
-      subject,
-      company,
+      subject: subject || '',
+      company: company || '',
       status: 'pending',
-      createdAt: new Date().toISOString()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     
-    contacts.push(newContact);
-    await fs.writeFile(CONTACTS_FILE, JSON.stringify({ contacts }, null, 2));
+    await db.collection('rmt_contacts').insertOne(newContact);
     
-    return NextResponse.json({ success: true, message: 'Message sent successfully' });
-  } catch {
-    return NextResponse.json({ success: false, error: 'Failed to send message' }, { status: 500 });
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Message sent successfully' 
+    });
+  } catch (error) {
+    console.error('Contact creation error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to send message' },
+      { status: 500 }
+    );
   }
 }
 
 export async function GET() {
   try {
-    const data = await fs.readFile(CONTACTS_FILE, 'utf8');
-    const { contacts } = JSON.parse(data);
+    const { db } = await connectToDatabase();
+    const contacts = await db.collection('rmt_contacts')
+      .find({})
+      .sort({ createdAt: -1 })
+      .toArray();
+
     return NextResponse.json({ success: true, contacts });
-  } catch {
-    return NextResponse.json({ success: false, contacts: [] });
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch contacts', contacts: [] },
+      { status: 500 }
+    );
   }
 }

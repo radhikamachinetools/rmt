@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Image, Video, FolderOpen } from "lucide-react";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../components/ui/dialog";
+import { LoadingButton } from "../../components/ui/loading-button";
+import { useToast } from "../../components/ToastProvider";
 
 type GalleryCategory = {
   _id: string;
@@ -39,8 +43,9 @@ export default function GalleryAdmin() {
   });
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const [mediaPreviews, setMediaPreviews] = useState<string[]>([]);
-  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+  const { showToast } = useToast();
   const [deleteModal, setDeleteModal] = useState<{show: boolean, type: 'category' | 'item', id: string, name: string}>({show: false, type: 'category', id: '', name: ''});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetchGallery();
@@ -104,6 +109,7 @@ export default function GalleryAdmin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
       if (modalType === 'category') {
@@ -125,11 +131,11 @@ export default function GalleryAdmin() {
           const data = await res.json();
           
           if (data.success) {
-            setToast({ message: 'Category updated successfully!', type: 'success' });
+            showToast('Category updated successfully!', 'success');
             fetchGallery();
             resetForm();
           } else {
-            setToast({ message: data.error || 'Failed to update', type: 'error' });
+            showToast(data.error || 'Failed to update', 'error');
           }
         } else {
           const res = await fetch('/api/gallery', {
@@ -141,11 +147,11 @@ export default function GalleryAdmin() {
           const data = await res.json();
           
           if (data.success) {
-            setToast({ message: 'Category created successfully!', type: 'success' });
+            showToast('Category created successfully!', 'success');
             fetchGallery();
             resetForm();
           } else {
-            setToast({ message: data.error || 'Failed to save', type: 'error' });
+            showToast(data.error || 'Failed to save', 'error');
           }
         }
       } else {
@@ -175,11 +181,11 @@ export default function GalleryAdmin() {
           const allSuccessful = responses.every(res => res.ok);
           
           if (allSuccessful) {
-            setToast({ message: `${mediaUrls.length} items created successfully!`, type: 'success' });
+            showToast(`${mediaUrls.length} items created successfully!`, 'success');
             fetchGallery();
             resetForm();
           } else {
-            setToast({ message: 'Some items failed to create', type: 'error' });
+            showToast('Some items failed to create', 'error');
           }
         } else if (formData.url) {
           // Single item with URL
@@ -202,11 +208,11 @@ export default function GalleryAdmin() {
             const data = await res.json();
             
             if (data.success) {
-              setToast({ message: 'Item updated successfully!', type: 'success' });
+              showToast('Item updated successfully!', 'success');
               fetchGallery();
               resetForm();
             } else {
-              setToast({ message: data.error || 'Failed to update', type: 'error' });
+              showToast(data.error || 'Failed to update', 'error');
             }
           } else {
             const res = await fetch('/api/gallery', {
@@ -218,20 +224,20 @@ export default function GalleryAdmin() {
             const data = await res.json();
             
             if (data.success) {
-              setToast({ message: 'Item created successfully!', type: 'success' });
+              showToast('Item created successfully!', 'success');
               fetchGallery();
               resetForm();
             } else {
-              setToast({ message: data.error || 'Failed to save', type: 'error' });
+              showToast(data.error || 'Failed to save', 'error');
             }
           }
         }
       }
     } catch (error) {
-      setToast({ message: error instanceof Error ? error.message : 'Error saving item', type: 'error' });
+      showToast(error instanceof Error ? error.message : 'Error saving item', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    setTimeout(() => setToast(null), 3000);
   };
 
   const resetForm = () => {
@@ -300,16 +306,14 @@ export default function GalleryAdmin() {
       const data = await res.json();
       
       if (res.ok) {
-        setToast({ message: `${type === 'category' ? 'Category' : 'Item'} deleted successfully!`, type: 'success' });
+        showToast(`${type === 'category' ? 'Category' : 'Item'} deleted successfully!`, 'success');
         fetchGallery();
       } else {
-        setToast({ message: data.error || 'Failed to delete', type: 'error' });
+        showToast(data.error || 'Failed to delete', 'error');
       }
     } catch (error) {
-      setToast({ message: 'Error deleting item', type: 'error' });
+      showToast('Error deleting item', 'error');
     }
-    
-    setTimeout(() => setToast(null), 3000);
   };
 
   const openModal = (type: "category" | "item") => {
@@ -337,45 +341,23 @@ export default function GalleryAdmin() {
 
   return (
     <div className="w-full space-y-6">
-      {toast && (
-        <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg shadow-lg ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
-          {toast.type === 'success' ? '✓ ' : '✗ '}{toast.message}
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={deleteModal.show}
+        onClose={() => setDeleteModal({show: false, type: 'category', id: '', name: ''})}
+        onConfirm={handleDelete}
+        title={`Delete ${deleteModal.type === 'category' ? 'Category' : 'Item'}`}
+        message={`Are you sure you want to delete "${deleteModal.name}"?${deleteModal.type === 'category' ? ' This will also delete all items in this category.' : ''}`}
+        type="delete"
+      />
 
-      {deleteModal.show && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete {deleteModal.type === 'category' ? 'Category' : 'Item'}</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete <strong>{deleteModal.name}</strong>?
-              {deleteModal.type === 'category' && ' This will also delete all items in this category.'}
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setDeleteModal({show: false, type: 'category', id: '', name: ''})}
-                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
               {editingItem ? 'Edit' : 'Add'} {modalType === 'category' ? 'Gallery Category' : 'Gallery Item'}
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
               {modalType === 'category' ? (
                 <>
                   <div>
@@ -537,17 +519,17 @@ export default function GalleryAdmin() {
                 >
                   Cancel
                 </button>
-                <button
+                <LoadingButton
                   type="submit"
+                  loading={isSubmitting}
                   className="px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-green-dark"
                 >
                   {editingItem ? 'Update' : 'Create'}
-                </button>
+                </LoadingButton>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>

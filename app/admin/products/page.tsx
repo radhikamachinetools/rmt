@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Pencil, Trash2, Eye, Plus, Search, Filter, Grid, List } from "lucide-react";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
+import { useToast } from "../../components/ToastProvider";
+import { LoadingButton } from "../../components/ui/loading-button";
 
 type Product = {
   _id: string;
@@ -25,8 +28,10 @@ export default function ProductsAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [deleteModal, setDeleteModal] = useState<{show: boolean, productId: string, productName: string}>({show: false, productId: '', productName: ''});
+  const [deleting, setDeleting] = useState(false);
+  
+  const { showToast } = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -52,23 +57,24 @@ export default function ProductsAdmin() {
 
   const deleteProduct = async () => {
     const id = deleteModal.productId;
-    setDeleteModal({show: false, productId: '', productName: ''});
+    setDeleting(true);
     
     try {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
       const data = await res.json();
       
       if (res.ok) {
-        setToast({ message: 'Product and images deleted successfully!', type: 'success' });
+        showToast('Product and images deleted successfully!', 'success');
         fetchProducts();
       } else {
-        setToast({ message: data.error || 'Failed to delete product', type: 'error' });
+        showToast(data.error || 'Failed to delete product', 'error');
       }
     } catch {
-      setToast({ message: 'Error deleting product', type: 'error' });
+      showToast('Error deleting product', 'error');
+    } finally {
+      setDeleting(false);
+      setDeleteModal({show: false, productId: '', productName: ''});
     }
-    
-    setTimeout(() => setToast(null), 3000);
   };
 
   const filteredProducts = products.filter((product: Product) => {
@@ -104,36 +110,16 @@ export default function ProductsAdmin() {
 
   return (
     <div className="w-full space-y-6">
-      {toast && (
-        <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg shadow-lg ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
-          {toast.type === 'success' ? '✓ ' : '✗ '}{toast.message}
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={deleteModal.show}
+        onClose={() => setDeleteModal({show: false, productId: '', productName: ''})}
+        onConfirm={deleteProduct}
+        title="Delete Product"
+        message={`Are you sure you want to delete "${deleteModal.productName}"? This will also remove all associated images and cannot be undone.`}
+        confirmText={deleting ? "Deleting..." : "Delete Product"}
+        type="delete"
+      />
 
-      {deleteModal.show && (
-   <div className="fixed inset-0 flex items-center justify-center" style={{zIndex: 9999}}>
-          <div className="bg-brand-green-light rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-white mb-2">Delete Product</h3>
-            <p className="text-white mb-6">
-              Are you sure you want to delete <strong>{deleteModal.productName}</strong>? This will also remove all associated images.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setDeleteModal({show: false, productId: '', productName: ''})}
-                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={deleteProduct}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Products Management</h1>
@@ -141,7 +127,7 @@ export default function ProductsAdmin() {
         </div>
         <Link 
           href="/admin/products/create"
-          className="inline-flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm font-medium"
+          className="inline-flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-3 rounded-xl hover:bg-brand-green-dark transition-all duration-200 shadow-sm font-medium hover:scale-[0.98] active:scale-[0.96]"
         >
           <Plus size={20} />
           Add Product

@@ -1,37 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const CATEGORIES_FILE = path.join(process.cwd(), 'data', 'categories.json');
+import { connectToDatabase } from '../../lib/db';
 
 export async function GET() {
   try {
-    const data = await fs.readFile(CATEGORIES_FILE, 'utf8');
-    const parsedData = JSON.parse(data);
-    return NextResponse.json({ success: true, ...parsedData });
+    console.log('GET /api/categories - Starting fetch');
+    
+    const { db } = await connectToDatabase();
+    console.log('Connected to MongoDB');
+    
+    const categories = await db.collection('rmt_categories')
+      .find({})
+      .sort({ displayOrder: 1 })
+      .toArray();
+      
+    console.log('MongoDB categories found:', categories.length);
+    
+    return NextResponse.json({ success: true, categories });
   } catch (error) {
-    return NextResponse.json({ success: false, categories: [] });
+    console.error('GET categories error:', error);
+    return NextResponse.json({ success: false, categories: [], error: error.message });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const newCategory = await request.json();
+    console.log('POST /api/categories - Creating category:', newCategory);
     
-    let categoriesData;
-    try {
-      const data = await fs.readFile(CATEGORIES_FILE, 'utf8');
-      categoriesData = JSON.parse(data);
-    } catch {
-      categoriesData = { categories: [] };
-    }
+    // Generate slug from name
+    const slug = newCategory.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
-    const id = Date.now().toString();
-    categoriesData.categories.push({ _id: id, ...newCategory });
+    const { db } = await connectToDatabase();
+    console.log('Connected to MongoDB for POST');
     
-    await fs.writeFile(CATEGORIES_FILE, JSON.stringify(categoriesData, null, 2));
-    return NextResponse.json({ success: true });
+    const categoryData = {
+      name: newCategory.name,
+      slug,
+      status: newCategory.status || 'active',
+      displayOrder: parseInt(newCategory.displayOrder) || 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const result = await db.collection('rmt_categories').insertOne(categoryData);
+    console.log('MongoDB insert result:', result.insertedId);
+    
+    // Return the created category with the MongoDB _id
+    const createdCategory = { ...categoryData, _id: result.insertedId.toString() };
+    return NextResponse.json({ success: true, category: createdCategory });
   } catch (error) {
+    console.error('POST categories error:', error);
     return NextResponse.json({ success: false, error: 'Failed to create category' }, { status: 500 });
   }
 }

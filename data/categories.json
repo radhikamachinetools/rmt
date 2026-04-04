@@ -34,6 +34,13 @@
       "slug": "others",
       "status": "active",
       "displayOrder": 5
+    },
+    {
+      "_id": "1775217150351",
+      "name": "hjbhjhbj",
+      "slug": "hjbhjhbj",
+      "status": "active",
+      "displayOrder": 8
     }
   ]
 }

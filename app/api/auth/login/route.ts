@@ -1,16 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const ADMIN_FILE = path.join(process.cwd(), 'data', 'admin.json');
+import { connectToDatabase } from '../../../lib/db';
 
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
-    const data = await fs.readFile(ADMIN_FILE, 'utf8');
-    const { admin } = JSON.parse(data);
-    
-    if (username === admin.username && password === admin.password) {
+
+    // Try MongoDB first
+    try {
+      const { db } = await connectToDatabase();
+      const admin = await db.collection('rmt_admin').findOne({ username, password });
+      
+      if (admin) {
+        const response = NextResponse.json({ success: true, message: 'Login successful' });
+        response.cookies.set('admin-auth', 'true', {
+          httpOnly: false,
+          secure: false,
+          maxAge: 24 * 60 * 60 * 1000,
+          path: '/'
+        });
+        return response;
+      }
+    } catch (dbError) {
+      console.log('MongoDB not available, using fallback');
+    }
+
+    // Fallback to original credentials
+    if (username === 'admin' && password === 'rmt2024') {
       const response = NextResponse.json({ success: true, message: 'Login successful' });
       response.cookies.set('admin-auth', 'true', {
         httpOnly: false,

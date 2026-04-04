@@ -3,9 +3,20 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "*.vercel-storage.com",
+        pathname: "/**",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
-        port: "3001", // Your NestJS backend port
+        port: "3001",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
         pathname: "/uploads/**",
       },
     ],

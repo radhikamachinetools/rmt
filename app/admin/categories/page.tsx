@@ -1,7 +1,12 @@
 "use client";
 
+// Force refresh - Updated at 2024-12-19 10:30:00
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Search, Eye, EyeOff } from "lucide-react";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
+import { useToast } from "../../components/ToastProvider";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../components/ui/dialog";
+import { LoadingButton } from "../../components/ui/loading-button";
 
 type Category = {
   _id: string;
@@ -22,8 +27,11 @@ export default function CategoriesAdmin() {
     status: "active" as "active" | "inactive",
     displayOrder: 0
   });
-  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const [deleteModal, setDeleteModal] = useState<{show: boolean, categoryId: string, categoryName: string}>({show: false, categoryId: '', categoryName: ''});
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  
+  const { showToast } = useToast();
 
   useEffect(() => {
     fetchCategories();
@@ -31,22 +39,27 @@ export default function CategoriesAdmin() {
 
   const fetchCategories = async () => {
     try {
+      console.log('Fetching categories...');
       const res = await fetch('/api/categories');
       const data = await res.json();
+      console.log('Categories response:', data);
       if (data.success) {
-        setCategories(data.categories);
+        setCategories(data.categories || []);
+      } else {
+        console.error('Failed to fetch categories:', data);
+        setCategories([]);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     } finally {
       setLoading(false);
     }
   };
 
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSaving(true);
     
     try {
       const url = editingCategory ? `/api/categories/${editingCategory._id}` : '/api/categories';
@@ -61,20 +74,20 @@ export default function CategoriesAdmin() {
       const data = await res.json();
       
       if (data.success) {
-        setToast({ 
-          message: `Category ${editingCategory ? 'updated' : 'created'} successfully!`, 
-          type: 'success' 
-        });
+        showToast(
+          `Category ${editingCategory ? 'updated' : 'created'} successfully!`, 
+          'success'
+        );
         fetchCategories();
         resetForm();
       } else {
-        setToast({ message: data.error || 'Failed to save category', type: 'error' });
+        showToast(data.error || 'Failed to save category', 'error');
       }
     } catch (error) {
-      setToast({ message: error instanceof Error ? error.message : 'Error saving category', type: 'error' });
+      showToast(error instanceof Error ? error.message : 'Error saving category', 'error');
+    } finally {
+      setSaving(false);
     }
-    
-    setTimeout(() => setToast(null), 3000);
   };
 
   const resetForm = () => {
@@ -99,23 +112,24 @@ export default function CategoriesAdmin() {
 
   const deleteCategory = async () => {
     const id = deleteModal.categoryId;
-    setDeleteModal({show: false, categoryId: '', categoryName: ''});
+    setDeleting(true);
     
     try {
       const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' });
       const data = await res.json();
       
       if (res.ok) {
-        setToast({ message: 'Category deleted successfully!', type: 'success' });
+        showToast('Category deleted successfully!', 'success');
         fetchCategories();
       } else {
-        setToast({ message: data.error || 'Failed to delete category', type: 'error' });
+        showToast(data.error || 'Failed to delete category', 'error');
       }
     } catch (error) {
-      setToast({ message: 'Error deleting category', type: 'error' });
+      showToast('Error deleting category', 'error');
+    } finally {
+      setDeleting(false);
+      setDeleteModal({show: false, categoryId: '', categoryName: ''});
     }
-    
-    setTimeout(() => setToast(null), 3000);
   };
 
   const filteredCategories = categories.filter(category =>
@@ -145,100 +159,87 @@ export default function CategoriesAdmin() {
 
   return (
     <div className="w-full space-y-6">
-      {toast && (
-        <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg shadow-lg ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
-          {toast.type === 'success' ? '✓ ' : '✗ '}{toast.message}
-        </div>
-      )}
+      <ConfirmationModal
+        key={`delete-${deleteModal.categoryId}`}
+        isOpen={deleteModal.show}
+        onClose={() => setDeleteModal({show: false, categoryId: '', categoryName: ''})}
+        onConfirm={deleteCategory}
+        title="Delete Category"
+        message={`Are you sure you want to delete "${deleteModal.categoryName}"? This action cannot be undone.`}
+        confirmText={deleting ? "Deleting..." : "Delete Category"}
+        type="delete"
+      />
 
-      {deleteModal.show && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Category</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete <strong>{deleteModal.categoryName}</strong>?
-            </p>
-            <div className="flex gap-3 justify-end">
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {editingCategory ? 'Edit Category' : 'Add Category'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Category Name
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green transition-all duration-200 text-sm"
+                placeholder="Enter category name"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Status
+              </label>
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({...formData, status: e.target.value as "active" | "inactive"})}
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green transition-all duration-200 text-sm"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Display Order
+              </label>
+              <input
+                type="number"
+                value={formData.displayOrder}
+                onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green transition-all duration-200 text-sm"
+                placeholder="0"
+              />
+            </div>
+
+            <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
               <button
-                onClick={() => setDeleteModal({show: false, categoryId: '', categoryName: ''})}
-                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+                type="button"
+                onClick={resetForm}
+                className="px-4 py-2.5 text-gray-700 bg-gray-100 border border-gray-200 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
               >
                 Cancel
               </button>
-              <button
-                onClick={deleteCategory}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              <LoadingButton
+                type="submit"
+                loading={saving}
+                variant="primary"
+                size="md"
               >
-                Delete
-              </button>
+                {editingCategory ? 'Update Category' : 'Create Category'}
+              </LoadingButton>
             </div>
-          </div>
-        </div>
-      )}
-
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              {editingCategory ? 'Edit Category' : 'Add Category'}
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status
-                </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value as "active" | "inactive"})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent"
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Display Order
-                </label>
-                <input
-                  type="number"
-                  value={formData.displayOrder}
-                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent"
-                />
-              </div>
-
-              <div className="flex gap-3 justify-end pt-4">
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-green-dark"
-                >
-                  {editingCategory ? 'Update' : 'Create'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -247,7 +248,7 @@ export default function CategoriesAdmin() {
         </div>
         <button 
           onClick={() => setShowModal(true)}
-          className="inline-flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm font-medium"
+          className="inline-flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-3 rounded-xl hover:bg-brand-green-dark transition-all duration-200 shadow-sm font-medium hover:scale-[0.98] active:scale-[0.96]"
         >
           <Plus size={20} />
           Add Category
