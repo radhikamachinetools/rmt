@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { Mail, Phone, Calendar, User, Grid, List, Trash2 } from "lucide-react";
 
 type Contact = {
-  id: string;
+  id?: string;
+  _id?: string;
   name: string;
   email: string;
   phone?: string;
@@ -59,7 +60,7 @@ export default function ContactsAdmin() {
       
       if (res.ok) {
         setContacts(contacts.map(contact => 
-          contact.id === contactId ? { ...contact, status: newStatus } : contact
+          (contact._id || contact.id) === contactId ? { ...contact, status: newStatus } : contact
         ));
         setToast({ message: `Status updated to ${newStatus}!`, type: 'success' });
       } else {
@@ -86,7 +87,7 @@ export default function ContactsAdmin() {
       });
       
       if (res.ok) {
-        setContacts(contacts.filter(contact => contact.id !== contactId));
+        setContacts(contacts.filter(contact => (contact._id || contact.id) !== contactId));
         setToast({ message: 'Contact deleted successfully!', type: 'success' });
       } else {
         setToast({ message: 'Failed to delete contact', type: 'error' });
@@ -168,7 +169,7 @@ export default function ContactsAdmin() {
         <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-4"}>
           {filteredContacts.map((contact) => (
             viewMode === "grid" ? (
-              <div key={contact.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+              <div key={contact._id || contact.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 bg-brand-green rounded-full flex items-center justify-center">
                     <User className="text-white" size={16} />
@@ -179,7 +180,7 @@ export default function ContactsAdmin() {
                   </div>
                   <select
                     value={contact.status || 'pending'}
-                    onChange={(e) => confirmStatusUpdate(contact.id, contact.name, e.target.value)}
+                    onChange={(e) => confirmStatusUpdate((contact._id || contact.id) as string, contact.name, e.target.value)}
                     className={`px-2 py-1 rounded text-xs font-medium border ${
                       contact.status === 'completed' 
                         ? 'bg-green-100 text-green-800 border-green-200' 
@@ -190,7 +191,7 @@ export default function ContactsAdmin() {
                     <option value="completed">Completed</option>
                   </select>
                   <button
-                    onClick={() => confirmDelete(contact.id, contact.name)}
+                    onClick={() => confirmDelete((contact._id || contact.id) as string, contact.name)}
                     className="p-1 text-red-600 hover:bg-red-50 rounded"
                   >
                     <Trash2 size={14} />
@@ -213,7 +214,7 @@ export default function ContactsAdmin() {
                 </div>
               </div>
             ) : (
-              <div key={contact.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <div key={contact._id || contact.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center">
@@ -229,7 +230,7 @@ export default function ContactsAdmin() {
                   <div className="flex items-center gap-4">
                     <select
                       value={contact.status || 'pending'}
-                      onChange={(e) => confirmStatusUpdate(contact.id, contact.name, e.target.value)}
+                      onChange={(e) => confirmStatusUpdate((contact._id || contact.id) as string, contact.name, e.target.value)}
                       className={`px-3 py-1 rounded-full text-sm font-medium border ${
                         contact.status === 'completed' 
                           ? 'bg-green-100 text-green-800 border-green-200' 
@@ -240,7 +241,7 @@ export default function ContactsAdmin() {
                       <option value="completed">Completed</option>
                     </select>
                     <button
-                      onClick={() => confirmDelete(contact.id, contact.name)}
+                      onClick={() => confirmDelete((contact._id || contact.id) as string, contact.name)}
                       className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
                     >
                       <Trash2 size={16} />
