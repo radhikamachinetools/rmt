@@ -25,45 +25,43 @@ export default function CreateMedia() {
 
     try {
       let mediaUrl = '';
-      
+
       if (formData.file) {
         const uploadFormData = new FormData();
         uploadFormData.append('files', formData.file);
         uploadFormData.append('slug', 'media');
-        
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData
-        });
-        
+
+        const uploadRes = await fetch('/api/upload', { method: 'POST', body: uploadFormData });
         const uploadResult = await uploadRes.json();
         if (uploadResult.success) {
           mediaUrl = uploadResult.paths[0];
+        } else {
+          showToast(uploadResult.error || 'Failed to upload file', 'error');
+          setSaving(false);
+          return;
         }
       }
-
-      const mediaData = {
-        title: formData.title,
-        description: formData.description,
-        url: mediaUrl,
-        resource_type: formData.file?.type.startsWith('video/') ? 'video' : 'image',
-        isActive: formData.isActive,
-        activeFrom: formData.activeFrom,
-        activeTo: formData.activeTo
-      };
 
       const res = await fetch('/api/media', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mediaData)
+        body: JSON.stringify({
+          title: formData.title,
+          description: formData.description,
+          url: mediaUrl,
+          resource_type: formData.file?.type.startsWith('video/') ? 'video' : 'image',
+          isActive: formData.isActive,
+          activeFrom: formData.activeFrom,
+          activeTo: formData.activeTo
+        })
       });
 
-      if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
         showToast('Media created successfully!', 'success');
         router.push('/admin/media');
       } else {
-        const errorData = await res.json();
-        showToast(errorData.error || 'Failed to create media', 'error');
+        showToast(data.error || 'Failed to create media', 'error');
       }
     } catch (error) {
       console.error('Error creating media:', error);
@@ -76,10 +74,7 @@ export default function CreateMedia() {
   return (
     <div className="w-full max-w-2xl mx-auto">
       <div className="flex items-center gap-4 mb-8">
-        <button
-          onClick={() => router.back()}
-          className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
-        >
+        <button onClick={() => router.back()} className="p-2 hover:bg-gray-200 rounded-lg transition-colors">
           <ArrowLeft size={20} />
         </button>
         <div>
@@ -89,8 +84,8 @@ export default function CreateMedia() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit}>
+          <div className="p-8 space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
               <input
@@ -102,7 +97,7 @@ export default function CreateMedia() {
                 required
               />
             </div>
-          
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
               <textarea
@@ -113,7 +108,7 @@ export default function CreateMedia() {
                 placeholder="Enter media description"
               />
             </div>
-          
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">File *</label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-green transition-colors">
@@ -150,7 +145,7 @@ export default function CreateMedia() {
                 </label>
               </div>
             </div>
-          
+
             <div className="flex items-center gap-3">
               <input
                 type="checkbox"
@@ -161,7 +156,7 @@ export default function CreateMedia() {
               />
               <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Active</label>
             </div>
-          
+
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Active From</label>
@@ -182,27 +177,27 @@ export default function CreateMedia() {
                 />
               </div>
             </div>
-          </form>
-        </div>
-
-        <div className="border-t border-gray-200 px-8 py-6 bg-gray-50 rounded-b-xl">
-          <div className="flex justify-end gap-4">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-white font-medium transition-colors"
-            >
-              Cancel
-            </button>
-            <LoadingButton
-              type="submit"
-              loading={saving}
-              className="px-6 py-3 bg-brand-green text-white rounded-lg hover:bg-brand-green-dark font-medium"
-            >
-              Create Media
-            </LoadingButton>
           </div>
-        </div>
+
+          <div className="border-t border-gray-200 px-8 py-6 bg-gray-50 rounded-b-xl">
+            <div className="flex justify-end gap-4">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-white font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <LoadingButton
+                type="submit"
+                loading={saving}
+                className="px-6 py-3 bg-brand-green text-white rounded-lg hover:bg-brand-green-dark font-medium"
+              >
+                Create Media
+              </LoadingButton>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );
