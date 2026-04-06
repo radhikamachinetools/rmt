@@ -1,54 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { connectToDatabase } from '../../lib/db';
+import { ObjectId } from 'mongodb';
 
-const INFRASTRUCTURE_FILE = path.join(process.cwd(), 'data', 'infrastructure.json');
+function buildFilter(id: string) {
+  try {
+    return { $or: [{ _id: new ObjectId(id) }, { _id: id }] };
+  } catch {
+    return { _id: id as any };
+  }
+}
 
 export async function GET() {
   try {
-    const data = await fs.readFile(INFRASTRUCTURE_FILE, 'utf8');
-    const { items } = JSON.parse(data);
+    const { db } = await connectToDatabase();
+    const items = await db.collection('rmt_infrastructure').find({}).sort({ order: 1 }).toArray();
     return NextResponse.json({ success: true, items });
-  } catch {
-    return NextResponse.json({ success: true, items: [] });
+  } catch (error) {
+    console.error('GET infrastructure error:', error);
+    return NextResponse.json({ success: false, items: [] });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const data = await fs.readFile(INFRASTRUCTURE_FILE, 'utf8').catch(() => '{"items":[]}');
-    const { items } = JSON.parse(data);
-    
-    const newItem = {
-      _id: Date.now().toString(),
-      ...body,
-      order: items.length
-    };
-    
-    items.push(newItem);
-    await fs.writeFile(INFRASTRUCTURE_FILE, JSON.stringify({ items }, null, 2));
-    
-    return NextResponse.json({ success: true, item: newItem });
-  } catch {
+    const { db } = await connectToDatabase();
+    const count = await db.collection('rmt_infrastructure').countDocuments();
+    const newItem = { ...body, order: count, createdAt: new Date() };
+    const result = await db.collection('rmt_infrastructure').insertOne(newItem);
+    return NextResponse.json({ success: true, item: { ...newItem, _id: result.insertedId } });
+  } catch (error) {
+    console.error('POST infrastructure error:', error);
     return NextResponse.json({ success: false, error: 'Failed to create item' }, { status: 500 });
-  }
-}
-
-export async function DELETE(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    
-    const data = await fs.readFile(INFRASTRUCTURE_FILE, 'utf8');
-    const { items } = JSON.parse(data);
-    
-    const filteredItems = items.filter((item: any) => item._id !== id);
-    await fs.writeFile(INFRASTRUCTURE_FILE, JSON.stringify({ items: filteredItems }, null, 2));
-    
-    return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
 
@@ -56,19 +39,27 @@ export async function PUT(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ success: false, error: 'ID required' }, { status: 400 });
     const body = await request.json();
-    
-    const data = await fs.readFile(INFRASTRUCTURE_FILE, 'utf8');
-    const { items } = JSON.parse(data);
-    
-    const updatedItems = items.map((item: any) => 
-      item._id === id ? { ...item, ...body } : item
-    );
-    
-    await fs.writeFile(INFRASTRUCTURE_FILE, JSON.stringify({ items: updatedItems }, null, 2));
-    
+    const { db } = await connectToDatabase();
+    await db.collection('rmt_infrastructure').updateOne(buildFilter(id), { $set: { ...body, updatedAt: new Date() } });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error('PUT infrastructure error:', error);
+    return NextResponse.json({ success: false }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ success: false, error: 'ID required' }, { status: 400 });
+    const { db } = await connectToDatabase();
+    await db.collection('rmt_infrastructure').deleteOne(buildFilter(id));
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('DELETE infrastructure error:', error);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }

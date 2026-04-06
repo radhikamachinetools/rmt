@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 type MediaItem = {
-  id: string;
+  id?: string;
+  _id?: string;
   title: string;
   description: string;
   url: string;
@@ -109,7 +110,7 @@ export default function MediaAdmin() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {media.map((item) => (
-            <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div key={item._id || item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="relative aspect-video bg-gray-100">
                 {item.resource_type === 'video' ? (
                   <video
@@ -158,14 +159,14 @@ export default function MediaAdmin() {
                 
                 <div className="flex gap-2">
                   <Link
-                    href={`/admin/media/edit/${item.id}`}
+                    href={`/admin/media/edit/${item._id || item.id}`}
                     className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                   >
                     <Edit size={14} />
                     Edit
                   </Link>
                   <button
-                    onClick={() => confirmDelete(item.id, item.title)}
+                    onClick={() => confirmDelete(item._id || item.id || '', item.title)}
                     className="px-3 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
                   >
                     <Trash2 size={14} />

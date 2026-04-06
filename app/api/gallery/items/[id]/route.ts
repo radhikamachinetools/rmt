@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../../lib/db';
 import { ObjectId } from 'mongodb';
 
-function toObjectId(id: string) {
-  try { return new ObjectId(id); } catch { return null; }
+function buildFilter(id: string) {
+  try {
+    return { $or: [{ _id: new ObjectId(id) }, { _id: id }] };
+  } catch {
+    return { _id: id as any };
+  }
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -19,9 +23,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const { db } = await connectToDatabase();
     const updateData = { categoryId, type: itemTypeValue, url, title: title || '', displayOrder: parseInt(displayOrder) || 0, updatedAt: new Date() };
 
-    const oid = toObjectId(id);
-    const filter = oid ? { _id: oid } : { _id: id as any };
-    const result = await db.collection('rmt_gallery_items').updateOne(filter, { $set: updateData });
+    const result = await db.collection('rmt_gallery_items').updateOne(buildFilter(id), { $set: updateData });
 
     if (result.matchedCount === 0) return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
     return NextResponse.json({ success: true, item: { _id: id, ...updateData } });
@@ -36,10 +38,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const { id } = await params;
     const { db } = await connectToDatabase();
 
-    const oid = toObjectId(id);
-    const filter = oid ? { _id: oid } : { _id: id as any };
-    const result = await db.collection('rmt_gallery_items').deleteOne(filter);
-
+    const result = await db.collection('rmt_gallery_items').deleteOne(buildFilter(id));
     if (result.deletedCount === 0) return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
     return NextResponse.json({ success: true, message: 'Item deleted successfully' });
   } catch (error) {
