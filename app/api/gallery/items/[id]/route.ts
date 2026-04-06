@@ -1,50 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { connectToDatabase } from '../../../../lib/db';
+import { ObjectId } from 'mongodb';
 
-type GalleryItem = {
-  _id: string;
-  categoryId: string;
-  type: string;
-  url: string;
-  title: string;
-  displayOrder: number;
-};
-
-const GALLERY_FILE = path.join(process.cwd(), 'data', 'gallery.json');
+function toObjectId(id: string) {
+  try { return new ObjectId(id); } catch { return null; }
+}
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const body = await request.json();
-    const { categoryId, type, url, title, displayOrder } = body;
+    const { categoryId, itemType, type, url, title, displayOrder } = await request.json();
+    const itemTypeValue = itemType || type;
 
-    if (!categoryId || !type || !url) {
+    if (!categoryId || !itemTypeValue || !url) {
       return NextResponse.json({ success: false, error: 'Category, type, and URL are required' }, { status: 400 });
     }
 
-    const data = await fs.readFile(GALLERY_FILE, 'utf8');
-    const galleryData = JSON.parse(data);
+    const { db } = await connectToDatabase();
+    const updateData = { categoryId, type: itemTypeValue, url, title: title || '', displayOrder: parseInt(displayOrder) || 0, updatedAt: new Date() };
 
-    const itemIndex = galleryData.galleryItems.findIndex((item: GalleryItem) => item._id === id);
-    if (itemIndex === -1) {
-      return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
-    }
+    const oid = toObjectId(id);
+    const filter = oid ? { _id: oid } : { _id: id as any };
+    const result = await db.collection('rmt_gallery_items').updateOne(filter, { $set: updateData });
 
-    galleryData.galleryItems[itemIndex] = {
-      ...galleryData.galleryItems[itemIndex],
-      categoryId,
-      type,
-      url,
-      title: title || '',
-      displayOrder: parseInt(displayOrder) || 0
-    };
-
-    await fs.writeFile(GALLERY_FILE, JSON.stringify(galleryData, null, 2));
-
-    return NextResponse.json({ success: true, item: galleryData.galleryItems[itemIndex] });
+    if (result.matchedCount === 0) return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
+    return NextResponse.json({ success: true, item: { _id: id, ...updateData } });
   } catch (error) {
-    console.error('Error updating gallery item:', error);
+    console.error('PUT gallery item error:', error);
     return NextResponse.json({ success: false, error: 'Failed to update item' }, { status: 500 });
   }
 }
@@ -52,22 +34,16 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
+    const { db } = await connectToDatabase();
 
-    const data = await fs.readFile(GALLERY_FILE, 'utf8');
-    const galleryData = JSON.parse(data);
+    const oid = toObjectId(id);
+    const filter = oid ? { _id: oid } : { _id: id as any };
+    const result = await db.collection('rmt_gallery_items').deleteOne(filter);
 
-    const itemIndex = galleryData.galleryItems.findIndex((item: GalleryItem) => item._id === id);
-    if (itemIndex === -1) {
-      return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
-    }
-
-    galleryData.galleryItems.splice(itemIndex, 1);
-
-    await fs.writeFile(GALLERY_FILE, JSON.stringify(galleryData, null, 2));
-
+    if (result.deletedCount === 0) return NextResponse.json({ success: false, error: 'Item not found' }, { status: 404 });
     return NextResponse.json({ success: true, message: 'Item deleted successfully' });
   } catch (error) {
-    console.error('Error deleting gallery item:', error);
+    console.error('DELETE gallery item error:', error);
     return NextResponse.json({ success: false, error: 'Failed to delete item' }, { status: 500 });
   }
 }
