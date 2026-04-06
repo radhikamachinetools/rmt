@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Phone, Mail } from "lucide-react";
 import ImageGallery from './components/ImageGallery';
-import products from '../../../data/products.json';
 
 type Product = {
   _id: string;
@@ -68,8 +67,13 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   useEffect(() => {
     const getProduct = async () => {
       const { slug } = await params;
-      const foundProduct = products.products.find((p: any) => p.slug === slug) as Product | undefined;
-      setProduct(foundProduct || null);
+      try {
+        const res = await fetch(`/api/products/slug/${slug}`);
+        const data = await res.json();
+        setProduct(data.success ? data.product : null);
+      } catch {
+        setProduct(null);
+      }
       setLoading(false);
     };
     getProduct();
