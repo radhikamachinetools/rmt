@@ -75,8 +75,10 @@ export default function AdminLayout({
             <Link
               href="/admin"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname === '/admin' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname === '/admin'
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Package size={16} />
@@ -85,8 +87,10 @@ export default function AdminLayout({
             <Link
               href="/admin/categories"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname.startsWith('/admin/categories') ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname.startsWith('/admin/categories')
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <FolderOpen size={16} />
@@ -95,8 +99,10 @@ export default function AdminLayout({
             <Link
               href="/admin/products"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname.startsWith('/admin/products') ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname.startsWith('/admin/products')
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Package size={16} />
@@ -105,8 +111,10 @@ export default function AdminLayout({
             <Link
               href="/admin/contacts"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname === '/admin/contacts' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname === '/admin/contacts'
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Mail size={16} />
@@ -115,8 +123,10 @@ export default function AdminLayout({
             <Link
               href="/admin/certificates"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname.startsWith('/admin/certificates') ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname.startsWith('/admin/certificates')
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Award size={16} />
@@ -125,8 +135,10 @@ export default function AdminLayout({
             <Link
               href="/admin/gallery"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname.startsWith('/admin/gallery') ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname.startsWith('/admin/gallery')
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Image size={16} />
@@ -135,8 +147,10 @@ export default function AdminLayout({
             <Link
               href="/admin/media"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-50 text-sm ${
-                pathname === '/admin/media' ? 'bg-brand-green text-white hover:bg-brand-green' : ''
+              className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+                pathname === '/admin/media'
+                  ? 'bg-brand-green text-white hover:bg-brand-green-dark'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <Image size={16} />
