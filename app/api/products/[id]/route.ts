@@ -12,15 +12,19 @@ function toObjectId(id: string) {
   try { return new ObjectId(id); } catch { return null; }
 }
 
+function buildFilter(id: string) {
+  const oid = toObjectId(id);
+  return oid
+    ? { $or: [{ _id: oid }, { _id: id }, { id }] }
+    : { $or: [{ _id: id }, { id }] };
+}
+
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-
     try {
       const { db } = await connectToDatabase();
-      const oid = toObjectId(id);
-      const filter = oid ? { $or: [{ _id: oid }, { _id: id }, { id }] } : { $or: [{ _id: id }, { id }] };
-      const product = await db.collection('rmt_products').findOne(filter);
+      const product = await db.collection('rmt_products').findOne(buildFilter(id));
       if (product) return NextResponse.json({ success: true, product });
     } catch {}
 
@@ -38,12 +42,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id } = await params;
     const body = await request.json();
-
     try {
       const { db } = await connectToDatabase();
-      const oid = toObjectId(id);
-      const filter = oid ? { $or: [{ _id: oid }, { _id: id }, { id }] } : { $or: [{ _id: id }, { id }] };
-      const result = await db.collection('rmt_products').updateOne(filter, { $set: { ...body, updatedAt: new Date() } });
+      const result = await db.collection('rmt_products').updateOne(buildFilter(id), { $set: { ...body, updatedAt: new Date() } });
       if (result.matchedCount > 0) return NextResponse.json({ success: true });
     } catch {}
 
@@ -62,19 +63,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-
     try {
       const { db } = await connectToDatabase();
-      const oid = toObjectId(id);
-      const filter = oid ? { $or: [{ _id: oid }, { _id: id }, { id }] } : { $or: [{ _id: id }, { id }] };
-      const product = await db.collection('rmt_products').findOne(filter);
+      const product = await db.collection('rmt_products').findOne(buildFilter(id));
       if (product) {
-        await db.collection('rmt_products').deleteOne(filter);
+        await db.collection('rmt_products').deleteOne(buildFilter(id));
         return NextResponse.json({ success: true, message: 'Product deleted successfully' });
       }
     } catch {}
 
-    // Fallback: JSON file
     const data = await fs.readFile(PRODUCTS_FILE, 'utf8');
     const { products } = JSON.parse(data);
     const product = products.find((p: Product) => p.id === id || p._id === id);
