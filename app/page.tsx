@@ -1,6 +1,8 @@
 import { ShieldCheck, Wrench, Trophy, Award, Users, Clock } from "lucide-react";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 import HeroClient from "./components/HeroClient";
 import FeatureCardClient from "./components/FeatureCardClient";
 import ProductCardClient from "./components/ProductCardClient";
