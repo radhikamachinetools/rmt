@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../lib/mongodb';
+import { getAdminSession } from '../../lib/admin-session';
+import { normalizeMongoDocuments } from '../../lib/mongo-utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -52,13 +54,17 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized', contacts: [] }, { status: 401 });
+    }
+
     const { db } = await connectToDatabase();
     const contacts = await db.collection('rmt_contacts')
       .find({})
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({ success: true, contacts });
+    return NextResponse.json({ success: true, contacts: normalizeMongoDocuments(contacts) });
   } catch (error) {
     console.error('Error fetching contacts:', error);
     return NextResponse.json(

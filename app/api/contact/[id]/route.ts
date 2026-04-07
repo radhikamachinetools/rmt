@@ -1,25 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../lib/db';
-import { ObjectId } from 'mongodb';
-
-function buildFilter(id: string) {
-  try {
-    return { $or: [{ _id: new ObjectId(id) }, { _id: id }] };
-  } catch {
-    return { _id: id as any };
-  }
-}
+import { getAdminSession } from '../../../lib/admin-session';
+import { buildIdFilter } from '../../../lib/mongo-utils';
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     const { status } = await request.json();
     const { db } = await connectToDatabase();
 
-    const result = await db.collection('rmt_contacts').updateOne(
-      buildFilter(id),
-      { $set: { status, updatedAt: new Date() } }
-    );
+    const result = await db.collection('rmt_contacts').updateOne(buildIdFilter(id), { $set: { status, updatedAt: new Date() } });
 
     if (result.matchedCount === 0) return NextResponse.json({ success: false, error: 'Contact not found' }, { status: 404 });
     return NextResponse.json({ success: true });
@@ -31,10 +25,14 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     const { db } = await connectToDatabase();
 
-    const result = await db.collection('rmt_contacts').deleteOne(buildFilter(id));
+    const result = await db.collection('rmt_contacts').deleteOne(buildIdFilter(id));
     if (result.deletedCount === 0) return NextResponse.json({ success: false, error: 'Contact not found' }, { status: 404 });
     return NextResponse.json({ success: true });
   } catch (error) {

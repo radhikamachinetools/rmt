@@ -17,25 +17,28 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    const checkAuth = () => {
-      const authCookie = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('admin-auth='));
-      
-      if (authCookie && authCookie.split('=')[1] === 'true') {
-        setIsAuthenticated(true);
-      } else if (pathname !== '/admin/login') {
-        router.push('/admin/login');
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/me', { cache: 'no-store' });
+        if (response.ok) {
+          setIsAuthenticated(true);
+          return;
+        }
+
+        if (pathname !== '/admin/login') {
+          router.replace('/admin/login');
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();
   }, [pathname, router]);
 
-  const handleLogout = () => {
-    document.cookie = 'admin-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    router.push('/admin/login');
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.replace('/admin/login');
   };
 
   if (loading) {

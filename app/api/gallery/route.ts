@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../lib/db';
+import { getAdminSession } from '../../lib/admin-session';
+import { normalizeMongoDocuments } from '../../lib/mongo-utils';
 
 export async function GET() {
   try {
@@ -10,7 +12,7 @@ export async function GET() {
       db.collection('rmt_gallery_items').find({}).sort({ displayOrder: 1 }).toArray(),
     ]);
 
-    return NextResponse.json({ success: true, categories, items });
+    return NextResponse.json({ success: true, categories: normalizeMongoDocuments(categories), items: normalizeMongoDocuments(items) });
   } catch (error) {
     console.error('GET gallery error:', error);
     return NextResponse.json({ success: false, error: 'Failed to fetch gallery' }, { status: 500 });
@@ -19,6 +21,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { type, ...itemData } = body;
     const { db } = await connectToDatabase();
@@ -31,7 +37,7 @@ export async function POST(request: NextRequest) {
       const newCategory = { name, slug, headerImage, displayOrder: parseInt(displayOrder) || 0, createdAt: new Date() };
 
       const result = await db.collection('rmt_gallery_categories').insertOne(newCategory);
-      return NextResponse.json({ success: true, category: { ...newCategory, _id: result.insertedId } });
+      return NextResponse.json({ success: true, category: { ...newCategory, _id: result.insertedId.toString(), id: result.insertedId.toString() } });
     }
 
     if (type === 'item') {
@@ -42,7 +48,7 @@ export async function POST(request: NextRequest) {
 
       const newItem = { categoryId, type: itemType, url, title, displayOrder: parseInt(displayOrder) || 0, createdAt: new Date() };
       const result = await db.collection('rmt_gallery_items').insertOne(newItem);
-      return NextResponse.json({ success: true, item: { ...newItem, _id: result.insertedId } });
+      return NextResponse.json({ success: true, item: { ...newItem, _id: result.insertedId.toString(), id: result.insertedId.toString() } });
     }
 
     return NextResponse.json({ success: false, error: 'Invalid type' }, { status: 400 });

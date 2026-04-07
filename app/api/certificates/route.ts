@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../lib/db';
+import { getAdminSession } from '../../lib/admin-session';
+import { normalizeMongoDocuments } from '../../lib/mongo-utils';
 
 export async function GET() {
   try {
@@ -15,7 +17,7 @@ export async function GET() {
       
     console.log('MongoDB certificates found:', certificates.length);
     
-    return NextResponse.json({ success: true, certificates });
+    return NextResponse.json({ success: true, certificates: normalizeMongoDocuments(certificates) });
   } catch (error) {
     console.error('GET certificates error:', error);
     return NextResponse.json({ success: false, certificates: [], error: error.message });
@@ -24,6 +26,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const certificateData = await request.json();
     console.log('POST /api/certificates - Creating certificate:', certificateData);
     
@@ -43,7 +49,7 @@ export async function POST(request: NextRequest) {
     const result = await db.collection('rmt_certificates').insertOne(newCertificate);
     console.log('MongoDB insert result:', result.insertedId);
     
-    const createdCertificate = { ...newCertificate, _id: result.insertedId.toString() };
+    const createdCertificate = { ...newCertificate, _id: result.insertedId.toString(), id: result.insertedId.toString() };
     return NextResponse.json({ success: true, certificate: createdCertificate });
   } catch (error) {
     console.error('POST certificates error:', error);

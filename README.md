@@ -4,9 +4,18 @@ This migration script transfers all RMT data from local JSON files to the new Mo
 
 ## Configuration
 
-- **MongoDB URI**: `mongodb+srv://Vercel-Admin-atlas-charcoal-cushion:QQiAHPnya8G1jP8Y@atlas-charcoal-cushion.ame65nm.mongodb.net/?retryWrites=true&w=majority`
-- **Blob Token**: `vercel_blob_rw_5g7dDBhp0vsrzBu1_uXALqvAWT6FGDAxQxNbNaH4KswlAuD`
+- **MongoDB URI**: set `MONGODB_URI` in `.env.local`
+- **Blob Token**: set `BLOB_READ_WRITE_TOKEN` in `.env.local`
 - **Database Name**: `inventory-mongodb`
+
+## Website Setup
+
+1. Make sure `.env.local` exists with the MongoDB and Blob values.
+2. Run `npm install`.
+3. Start the site with `npm run dev`.
+4. Open `http://localhost:3000`.
+
+If you use the contact form, also add `GMAIL_EMAIL` and `GMAIL_APP_PASSWORD` to `.env.local`.
 
 ## Collections Created
 

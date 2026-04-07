@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToBlob } from '../../lib/blob';
+import { getAdminSession } from '../../lib/admin-session';
 
 export async function POST(request: NextRequest) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const files = formData.getAll('files') as File[];

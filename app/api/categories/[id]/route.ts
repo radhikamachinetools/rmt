@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../lib/db';
-import { ObjectId } from 'mongodb';
+import { getAdminSession } from '../../../lib/admin-session';
+import { buildIdFilter, normalizeMongoDocument } from '../../../lib/mongo-utils';
 
 type Category = {
   _id: string;
@@ -12,6 +13,10 @@ type Category = {
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     const body = await request.json();
     const { name, status, displayOrder } = body;
@@ -34,23 +39,14 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       updatedAt: new Date()
     };
     
-    // Try to update with ObjectId first, then with string id
-    let result;
-    try {
-      result = await db.collection('rmt_categories').updateOne(
-        { _id: new ObjectId(id) },
-        { $set: updateData }
-      );
-    } catch {
-      result = await db.collection('rmt_categories').updateOne(
-        { _id: id },
-        { $set: updateData }
-      );
-    }
+    const result = await db.collection('rmt_categories').updateOne(
+      buildIdFilter(id),
+      { $set: updateData }
+    );
     
     if (result.matchedCount > 0) {
       console.log('MongoDB update successful');
-      return NextResponse.json({ success: true, category: { _id: id, ...updateData } });
+      return NextResponse.json({ success: true, category: normalizeMongoDocument({ _id: id, ...updateData }) });
     } else {
       return NextResponse.json({ success: false, error: 'Category not found' }, { status: 404 });
     }
@@ -62,19 +58,17 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = await params;
     console.log('DELETE - Deleting category:', id);
 
     const { db } = await connectToDatabase();
     console.log('Connected to MongoDB for DELETE');
     
-    // Try to delete with ObjectId first, then with string id
-    let result;
-    try {
-      result = await db.collection('rmt_categories').deleteOne({ _id: new ObjectId(id) });
-    } catch {
-      result = await db.collection('rmt_categories').deleteOne({ _id: id });
-    }
+    const result = await db.collection('rmt_categories').deleteOne(buildIdFilter(id));
     
     if (result.deletedCount > 0) {
       console.log('MongoDB delete successful');

@@ -9,9 +9,9 @@
 
 ## Database Configuration
 
-- **MongoDB URI**: `mongodb+srv://Vercel-Admin-atlas-charcoal-cushion:QQiAHPnya8G1jP8Y@atlas-charcoal-cushion.ame65nm.mongodb.net/?retryWrites=true&w=majority`
+- **MongoDB URI**: set `MONGODB_URI` in `.env.local`
 - **Database Name**: `inventory-mongodb`
-- **Blob Storage Token**: `vercel_blob_rw_5g7dDBhp0vsrzBu1_uXALqvAWT6FGDAxQxNbNaH4KswlAuD`
+- **Blob Storage Token**: set `BLOB_READ_WRITE_TOKEN` in `.env.local`
 
 ## Collections Created (All with `rmt_` prefix)
 
@@ -89,7 +89,7 @@
 ### 1. Update Your Application
 ```javascript
 // Update your database connection
-const MONGODB_URI = "mongodb+srv://Vercel-Admin-atlas-charcoal-cushion:QQiAHPnya8G1jP8Y@atlas-charcoal-cushion.ame65nm.mongodb.net/?retryWrites=true&w=majority";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // Use the new collection names
 const products = db.collection('rmt_products');
@@ -119,8 +119,8 @@ const product = await products.getBySlug('c-2300-block-cutter');
 ### 4. Environment Variables
 Update your `.env` file:
 ```env
-MONGODB_URI="mongodb+srv://Vercel-Admin-atlas-charcoal-cushion:QQiAHPnya8G1jP8Y@atlas-charcoal-cushion.ame65nm.mongodb.net/?retryWrites=true&w=majority"
-BLOB_READ_WRITE_TOKEN="vercel_blob_rw_5g7dDBhp0vsrzBu1_uXALqvAWT6FGDAxQxNbNaH4KswlAuD"
+MONGODB_URI="your-mongodb-uri"
+BLOB_READ_WRITE_TOKEN="your-vercel-blob-token"
 ```
 
 ## Verification Commands

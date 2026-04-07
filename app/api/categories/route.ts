@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '../../lib/db';
+import { getAdminSession } from '../../lib/admin-session';
+import { normalizeMongoDocuments } from '../../lib/mongo-utils';
 
 export async function GET() {
   try {
@@ -15,7 +17,7 @@ export async function GET() {
       
     console.log('MongoDB categories found:', categories.length);
     
-    return NextResponse.json({ success: true, categories });
+    return NextResponse.json({ success: true, categories: normalizeMongoDocuments(categories) });
   } catch (error) {
     console.error('GET categories error:', error);
     return NextResponse.json({ success: false, categories: [], error: error.message });
@@ -24,6 +26,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!(await getAdminSession())) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const newCategory = await request.json();
     console.log('POST /api/categories - Creating category:', newCategory);
     
@@ -46,7 +52,7 @@ export async function POST(request: NextRequest) {
     console.log('MongoDB insert result:', result.insertedId);
     
     // Return the created category with the MongoDB _id
-    const createdCategory = { ...categoryData, _id: result.insertedId.toString() };
+    const createdCategory = { ...categoryData, _id: result.insertedId.toString(), id: result.insertedId.toString() };
     return NextResponse.json({ success: true, category: createdCategory });
   } catch (error) {
     console.error('POST categories error:', error);
