@@ -69,7 +69,6 @@ body {
 /* Ensure containers don't overflow */
 .container, section, div, main {
   max-width: 100%;
-  overflow-x: hidden;
 }
 
 /* Mobile compact styles */
